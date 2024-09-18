@@ -3,11 +3,16 @@ Gather. Arm. Manage. Endure. This is the GAME. A 2D platformer tower defense rog
 
 Plan:
 
-    We are planning to make a single-player video game that is a mixture of tower defense, platforming, puzzles, and resource managing. We plan to incorporate physics-based movement and randomly seeded resources to find as you explore. We aim to have waves of enemies to defend against, science-based puzzles to solve which will unlock unique upgrades, as well as an intriguing, mysterious story and increasing difficulty. We want the game to have a cyberspace-theme, with music and designs fitting that aesthetic. 
+    We are planning to make a single-player video game that is a mixture of tower defense, platforming, puzzles, and resource managing. 
+    We plan to incorporate physics-based movement and randomly seeded resources to find as you explore. 
+    We aim to have waves of enemies to defend against, science-based puzzles to solve which will unlock unique upgrades, 
+    as well as an intriguing, mysterious story and increasing difficulty. We want the game to have a cyberspace-theme, with music and designs fitting that aesthetic. 
 
 Motivation:
 
-    We want to develop this project because none of us have made a very fleshed out game before, and those of us that do not know JavaScript would like to learn it. Also, we want to make something that we have creative liberty in and a passion for, so that we stay excited to work on the project.
+    We want to develop this project because none of us have made a very fleshed out game before, and those of us that do not know 
+    JavaScript would like to learn it. Also, we want to make something that we have creative liberty in and a passion for, so that we 
+    stay excited to work on the project.
 
 Features to be implemented and types of users:
 
