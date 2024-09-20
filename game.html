@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Parkour Level in Phaser.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<script>
+    const config = {
+        type: Phaser.AUTO,
+        width: window.innerWidth,
+        height: window.innerHeight,
+        physics: {
+            default: 'arcade',
+            arcade: {
+                gravity: { y: 500 }, // Gravity to affect the player
+                debug: false
+            }
+        },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+    const game = new Phaser.Game(config);
+    let player, cursors, ground, platforms;
+
+    function preload() {
+        // Load player and platform graphics (using cyber-themed assets)
+        this.load.image('player', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/cyborg.png'); // Cyber player sprite
+        this.load.image('ground', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/platform.png'); // Ground/platform sprite
+        this.load.image('base', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/base.png'); // Base sprite
+    }
+
+    function create() {
+        // Create the base at the top
+        this.add.image(window.innerWidth / 2, 100, 'base').setOrigin(0.5, 0.5).setScale(2); // Base image
+
+        // Create the ground/platforms
+        ground = this.physics.add.staticGroup();
+        ground.create(window.innerWidth / 2, window.innerHeight - 20, 'ground').setScale(7).refreshBody(); // Ground at the bottom
+
+        // Create larger platforms for parkour
+        platforms = this.physics.add.staticGroup();
+        platforms.create(200, 400, 'ground').setScale(5).refreshBody();
+        platforms.create(200, 200, 'ground').setScale(5).refreshBody();
+        platforms.create(200, 300, 'ground').setScale(5).refreshBody();
+        platforms.create(600, 300, 'ground').setScale(3).refreshBody();
+        platforms.create(400, 200, 'ground').setScale(6).refreshBody();
+
+        platforms.create(1000, 500, 'ground').setScale(1).refreshBody(); // More platforms for a larger level
+
+        // Create the player
+        player = this.physics.add.sprite(100, 450, 'player').setScale(1);
+        player.setBounce(0.2);
+        player.setCollideWorldBounds(true);
+
+        // Player collides with the ground and platforms
+        this.physics.add.collider(player, ground);
+        this.physics.add.collider(player, platforms);
+
+        // Input controls (WASD)
+        cursors = this.input.keyboard.addKeys({
+            up: Phaser.Input.Keyboard.KeyCodes.W,
+            left: Phaser.Input.Keyboard.KeyCodes.A,
+            right: Phaser.Input.Keyboard.KeyCodes.D,
+            space: Phaser.Input.Keyboard.KeyCodes.SPACE
+        });
+    }
+
+    function update() {
+        // Player movement controls
+        if (cursors.left.isDown) {
+            player.setVelocityX(-160);
+        } else if (cursors.right.isDown) {
+            player.setVelocityX(160);
+        } else {
+            player.setVelocityX(0);
+        }
+
+        // Jumping mechanics
+        if (cursors.space.isDown && player.body.touching.down) {
+            player.setVelocityY(-300); // Jump height
+        }
+    }
+</script>
+</body>
+</html>
