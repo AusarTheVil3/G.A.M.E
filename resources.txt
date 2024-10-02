@@ -1,0 +1,2 @@
+In this document I will outline what the resources in GAME will look like, do sprite gathering, write down frequency/weight of the drops
+
