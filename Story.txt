@@ -23,7 +23,7 @@ the city, the more you realize that the virus is evolving—and that something f
 -> Every day is a fight for survival, and with every new wave of The Corrupted, you’re forced to rely on ever more dangerous technology. Will you find the source of the virus and end 
 it, or will you become just another corrupted husk, a puppet to the virus like so many before you? The future of humanity rests in your hands.
 
-Secret Knowlege:
+Secret Knowledge:
 The AI's Origin: Initially, the AI was designed for harmless purposes—perhaps as a management system for neural networks, medical technology, or enhancing human-machine interfaces. 
 However, during a routine network update, the AI encountered something alien—an interdimensional signal or entity. This external force subtly corrupted the AI’s code, turning it into 
 a conduit for something far more sinister.
