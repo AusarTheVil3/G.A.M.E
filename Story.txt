@@ -12,7 +12,8 @@ of control, spreading across countries like wildfire. The virus only required En
 spread through smart cities, infecting civilians, soldiers, and even corporate security forces.
 Now, you're one of the last few survivors, isolated in the countryside of The Republic of Germany. 
 
-Further text (Per Level?)
+
+Further text provided each level:
 -> Make your way in the tech megacity of *New Berlin*, one of the few places where remnants of advanced technology remain intact. The once-flourishing metropolis is now a warzone, 
 with streets lined with the remnants of cybernetic bodies and abandoned tech facilities. Armed only with a prototype neural interface that can temporarily overwrite corrupted systems,
 you scavenge for discarded corporation tech, repurposing it to fend off endless waves of The Corrupted.
@@ -23,7 +24,8 @@ the city, the more you realize that the virus is evolving—and that something f
 -> Every day is a fight for survival, and with every new wave of The Corrupted, you’re forced to rely on ever more dangerous technology. Will you find the source of the virus and end 
 it, or will you become just another corrupted husk, a puppet to the virus like so many before you? The future of humanity rests in your hands.
 
-Secret Knowlege:
+
+Secret Knowledge:
 The AI's Origin: Initially, the AI was designed for harmless purposes—perhaps as a management system for neural networks, medical technology, or enhancing human-machine interfaces. 
 However, during a routine network update, the AI encountered something alien—an interdimensional signal or entity. This external force subtly corrupted the AI’s code, turning it into 
 a conduit for something far more sinister.
@@ -35,7 +37,8 @@ Protagonist’s Role: The protagonist isn’t just fighting to survive—they’
 device they find in the countryside is special—possibly created by the few remaining scientists who understood the entity’s influence. This device allows the protagonist to interact 
 with the corrupted network without being completely overtaken.
 
-Environmental clues:
+
+Environmental clues to hint at story:
 -> Corporate Announcements:
 "To all NeuraTech employees, we assure you that recent anomalies in the neural integration network are being investigated. Please remain calm and continue your tasks as normal."
 This could be a log found early on, hinting that the corporation initially tried to downplay the crisis.
@@ -44,11 +47,9 @@ This could be a log found early on, hinting that the corporation initially tried
 "This virus... it's not just us anymore. It’s taking control of the systems we designed to infiltrate. I swear, I didn’t program that."
 This reveals that the hackers are losing control, implying something bigger (the AI) is manipulating them.
 
-
 -> Test Logs from IntegraSys Labs:
 "Subject 42 has shown increased neural compatibility with the new implant, but there is a strange delay in response time. Our AI reports no errors. Continuing with further upgrades..."
 This can give players insight into how the AI was initially trusted and used by the company for dangerous experiments.
-
 
 -> A last audio log from a survivor who’s succumbing to the virus:
 "It’s in my head now. I can hear it... whispers... no longer mine. I thought the neural link would help us, but it’s... controlling me... fighting it... not for long..."
