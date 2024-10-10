@@ -39,6 +39,7 @@ with the corrupted network without being completely overtaken.
 
 
 Environmental clues to hint at story:
+City vs. Rural clues?
 -> Corporate Announcements:
 "To all NeuraTech employees, we assure you that recent anomalies in the neural integration network are being investigated. Please remain calm and continue your tasks as normal."
 This could be a log found early on, hinting that the corporation initially tried to downplay the crisis.
