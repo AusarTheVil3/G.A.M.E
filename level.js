@@ -1,3 +1,4 @@
+
 export class Level {
     constructor(scene) {
         this.scene = scene;
@@ -14,17 +15,18 @@ export class Level {
     createGround() {
         // Create the ground
         this.ground = this.scene.physics.add.staticGroup();
-        this.ground.create(window.innerWidth / 2, window.innerHeight - 20, 'ground').setScale(7).refreshBody();
+        this.ground.create(500, 1450, 'ground').setScale(55).refreshBody();
     }
 
     createPlatforms() {
         // Create platforms
         this.platforms = this.scene.physics.add.staticGroup();
-        this.platforms.create(200, 400, 'ground').setScale(5).refreshBody();
-        this.platforms.create(200, 200, 'ground').setScale(5).refreshBody();
-        this.platforms.create(200, 300, 'ground').setScale(5).refreshBody();
-        this.platforms.create(600, 300, 'ground').setScale(3).refreshBody();
-        this.platforms.create(400, 200, 'ground').setScale(6).refreshBody();
-        this.platforms.create(1000, 500, 'ground').setScale(1).refreshBody();
+        this.ground.create(625,  560, 'ground').setScale(7).refreshBody();
+        this.platforms.create(200, 400, 'ground').setScale(3).refreshBody();
+        this.platforms.create(600, 330, 'ground').setScale(3).refreshBody();
+        this.platforms.create(370, 415, 'ground').setScale(3).refreshBody();
+        this.platforms.create(200, 400, 'ground').setScale(3).refreshBody();
+        this.platforms.create(400, 575, 'ground').setScale(3).refreshBody();
+        this.platforms.create(1000, 575, 'ground').setScale(3).refreshBody();
     }
 }
