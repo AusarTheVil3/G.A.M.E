@@ -20,11 +20,12 @@ export class Level {
     createPlatforms() {
         // Create platforms
         this.platforms = this.scene.physics.add.staticGroup();
-        this.platforms.create(200, 400, 'ground').setScale(5).refreshBody();
-        this.platforms.create(200, 200, 'ground').setScale(5).refreshBody();
-        this.platforms.create(200, 300, 'ground').setScale(5).refreshBody();
-        this.platforms.create(600, 300, 'ground').setScale(3).refreshBody();
-        this.platforms.create(400, 200, 'ground').setScale(6).refreshBody();
-        this.platforms.create(1000, 500, 'ground').setScale(1).refreshBody();
+        this.platforms.create(500, 1450, 'ground').setScale(55).refreshBody();
+        this.platforms.create(200, 400, 'ground').setScale(3).refreshBody();
+        this.platforms.create(600, 330, 'ground').setScale(3).refreshBody();
+        this.platforms.create(370, 415, 'ground').setScale(3).refreshBody();
+        this.platforms.create(200, 400, 'ground').setScale(3).refreshBody();
+        this.platforms.create(400, 575, 'ground').setScale(3).refreshBody();
+        this.platforms.create(875, 575, 'ground').setScale(3).refreshBody();
     }
 }
