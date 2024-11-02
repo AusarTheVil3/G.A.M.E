@@ -32,15 +32,18 @@
         let player, level, enemy;
 
         function preload() {
-            this.load.image('player', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/cyborg.png');
+            // Load player and other assets
+            player = new Player(this);
+            player.preload();  // Calls the preload method in player.js
             this.load.image('enemy', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/lol.png');
             this.load.image('ground', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/platform.png');
             this.load.image('base', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/base.png');
         }
 
         function create() {
+            // Initialize player, level, and enemy
             level = new Level(this);
-            player = new Player(this);
+            player.create();  // Calls the create method in player.js
             enemy = new Enemy(this);
 
             // Colliders
@@ -51,7 +54,7 @@
         }
 
         function update() {
-            player.update();
+            player.update();  // Calls the update method in player.js
             enemy.update();
         }
     </script>
