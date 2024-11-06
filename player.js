@@ -5,7 +5,10 @@ export class Player {
         // Load the spritesheets for idle and walking animations
         this.scene.load.spritesheet('player_idle', 'assets/spritesheets/hero_idlesheet.png', { frameWidth: 44, frameHeight: 48 });
         this.scene.load.spritesheet('player_walk', 'assets/spritesheets/hero_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
-    }
+        this.scene.load.spritesheet('player_jump', 'assets/spritesheets/hero_jumpsheet.png', { frameWidth: 44, frameHeight: 48 });
+        this.scene.load.spritesheet('player_basicattack', 'assets/spritesheets/hero_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
+
+    }   
     
     create(){
         console.log('Player creation');
@@ -26,9 +29,17 @@ export class Player {
         this.scene.anims.create({
             key: 'walk',
             frames: this.scene.anims.generateFrameNumbers('player_walk', { start: 0, end: 5 }),
-            frameRate: 10,
+            frameRate: 12,
             repeat: -1
         });
+
+        this.scene.anims.create({
+            key: 'jump',
+            frames: this.scene.anims.generateFrameNumbers('player_jump', { start: 0, end: 3 }),
+            frameRate: 8,
+            repeat: 0  // Play once per jump
+        });
+
 
         // Start with the idle animation
         this.sprite.anims.play('idle');
@@ -36,7 +47,7 @@ export class Player {
 
     constructor(scene) {
         this.scene = scene;
-        this.sprite = this.scene.physics.add.sprite(centerX, centerY, 'player_idle').setScale(1);
+        this.sprite = this.scene.physics.add.sprite(centerX, centerY, 'player_idle').setScale(1.5);
         this.sprite.setBounce(0.2);
         this.sprite.setCollideWorldBounds(true);
 
@@ -45,7 +56,8 @@ export class Player {
             up: Phaser.Input.Keyboard.KeyCodes.W,
             left: Phaser.Input.Keyboard.KeyCodes.A,
             right: Phaser.Input.Keyboard.KeyCodes.D,
-            space: Phaser.Input.Keyboard.KeyCodes.SPACE
+            space: Phaser.Input.Keyboard.KeyCodes.SPACE,
+            basic_attack: Phaser.Input.Keyboard.KeyCodes.J
         });
     }
 
@@ -53,13 +65,13 @@ export class Player {
         // Movement controls
         if (this.cursors.left.isDown) {
             this.sprite.setVelocityX(-160);
-            this.sprite.setScale(-1, 1);  // Flip sprite for left movement
+            this.sprite.setScale(-1.5, 1.5);  // Flip sprite for left movement
             if (this.sprite.anims.currentAnim.key !== 'walk') {
                 this.sprite.anims.play('walk');
             }
         } else if (this.cursors.right.isDown) {
             this.sprite.setVelocityX(160);
-            this.sprite.setScale(1, 1);  // Face sprite right
+            this.sprite.setScale(1.5, 1.5);  // Face sprite right
             if (this.sprite.anims.currentAnim.key !== 'walk') {
                 this.sprite.anims.play('walk');
             }
@@ -74,6 +86,9 @@ export class Player {
         // Jumping mechanics
         if (this.cursors.space.isDown && this.sprite.body.touching.down) {
             this.sprite.setVelocityY(-300); // Jump height
+            if (this.sprite.anims.currentAnim.key !== 'jump') {
+                this.sprite.anims.play('jump');
+            }
         }
     }
 }
