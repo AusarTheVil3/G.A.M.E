@@ -2,13 +2,20 @@ var centerX = 1250 / 4, centerY = 850 / 4;
 export class Player {
 
     preload(){
+        // Load the spritesheets for idle and walking animations
         this.scene.load.spritesheet('player_idle', 'assets/spritesheets/hero_idlesheet.png', { frameWidth: 44, frameHeight: 48 });
-        this.preload.spritesheet('player_walk', 'assets/spritesheets/hero_walkingsheet.png', 44 , 48);
+        this.scene.load.spritesheet('player_walk', 'assets/spritesheets/hero_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
     }
     
     create(){
-        console.log('player creation0');
-        player = this.add.sprite(centerX, centerY, 'player_idle')
+        console.log('Player creation');
+
+        this.sprite.setScale(1.5);
+
+        // Use the sprite initialized in the constructor
+        this.sprite.setTexture('player_idle');
+
+        // Define animations for idle and walking
         this.scene.anims.create({
             key: 'idle',
             frames: this.scene.anims.generateFrameNumbers('player_idle', { start: 0, end: 3 }),
@@ -23,13 +30,13 @@ export class Player {
             repeat: -1
         });
 
+        // Start with the idle animation
         this.sprite.anims.play('idle');
-
-
     }
+
     constructor(scene) {
         this.scene = scene;
-        this.sprite = this.scene.physics.add.sprite(100, 450, 'player_idle').setScale(1);
+        this.sprite = this.scene.physics.add.sprite(centerX, centerY, 'player_idle').setScale(1);
         this.sprite.setBounce(0.2);
         this.sprite.setCollideWorldBounds(true);
 
@@ -43,18 +50,25 @@ export class Player {
     }
 
     update() {
-        // Player movement controls
+        // Movement controls
         if (this.cursors.left.isDown) {
             this.sprite.setVelocityX(-160);
-            this.sprite.setScale(-1,1)
+            this.sprite.setScale(-1, 1);  // Flip sprite for left movement
+            if (this.sprite.anims.currentAnim.key !== 'walk') {
+                this.sprite.anims.play('walk');
+            }
         } else if (this.cursors.right.isDown) {
             this.sprite.setVelocityX(160);
-            this.sprite.setScale(1,1)
-
-            //this.animations.play('walk', 14, true);
+            this.sprite.setScale(1, 1);  // Face sprite right
+            if (this.sprite.anims.currentAnim.key !== 'walk') {
+                this.sprite.anims.play('walk');
+            }
         } else {
+            // No horizontal input - go idle
             this.sprite.setVelocityX(0);
-            //this.animations.play('idle', 14, true);
+            if (this.sprite.anims.currentAnim.key !== 'idle') {
+                this.sprite.anims.play('idle');
+            }
         }
 
         // Jumping mechanics
