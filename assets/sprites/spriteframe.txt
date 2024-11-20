@@ -1,0 +1,3 @@
+flyguy fly 48x55
+flyguy idle 48x48
+flyguy walk 48x48
