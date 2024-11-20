@@ -11,7 +11,7 @@ class TitleScene extends Phaser.Scene {
 
     create(){
         let Background = this.add.image(650,500,'Background');
-        let startButton = this.add.image(650,600,'StartButton');
+        let startButton = this.add.image(650,550,'StartButton');
         startButton.setInteractive();
         startButton.on('pointerdown', ()=>{
             startButton.setScale(1.25);
@@ -19,7 +19,7 @@ class TitleScene extends Phaser.Scene {
 
         startButton.on('pointerup', ()=>{
             startButton.setScale(1);
-            this.scene.switch('gameScene');
+            this.scene.start('loadingScene');
         })
     }
 
