@@ -1,6 +1,6 @@
-import { Player } from './player.js';
-import { Level } from './level.js';
-import { Enemy } from './enemy.js';
+import { Player } from '../player.js';
+import { Level } from '../level.js';
+import { Enemy } from '../enemy.js';
 
 class GameScene extends Phaser.Scene {
     constructor(){
@@ -15,7 +15,9 @@ class GameScene extends Phaser.Scene {
     }
     
     create() {
-        this.keyboardp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        this.keyboardesc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        this.keyboardp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+
         this.level = new Level(this);
         this.player = new Player(this);
         this.enemy = new Enemy(this);
@@ -29,8 +31,12 @@ class GameScene extends Phaser.Scene {
     
     update() {
         
-        if (Phaser.Input.Keyboard.JustDown(this.keyboardp)) {
+        if (Phaser.Input.Keyboard.JustDown(this.keyboardesc)) {
             this.scene.switch('titleScene');
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(this.keyboardp)) {
+            this.scene.switch('pauseScene');
         }
 
         this.player.update();

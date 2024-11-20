@@ -1,6 +1,8 @@
 
-import TitleScene from './titleScene.js';
-import GameScene from './gameScene.js';
+import TitleScene from './scenes/titleScene.js';
+import GameScene from './scenes/gameScene.js';
+import PauseScene from './scenes/pauseScene.js';
+import LoadingScene from './scenes/loadingScene.js';
 
 
 const config = {
@@ -14,7 +16,7 @@ const config = {
             debug: false
         }
     },
-    scene: [ TitleScene , GameScene]    
+    scene: [ TitleScene , GameScene, PauseScene, LoadingScene ]    
 };
 
 
