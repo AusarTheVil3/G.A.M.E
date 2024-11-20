@@ -5,56 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyber Parkour Level in Phaser.js</title>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
-    <script type="module">
-        import { Player } from './player.js';
-        import { Level } from './level.js';
-        import { Enemy } from './enemy.js';
-
-        const config = {
-            type: Phaser.AUTO,
-            width: 1250,
-            height: 800,
-            physics: {
-                default: 'arcade',
-                arcade: {
-                    gravity: { y: 500 },
-                    debug: false
-                }
-            },
-            scene: {
-                preload: preload,
-                create: create,
-                update: update
-            }
-        };
-
-        const game = new Phaser.Game(config);
-        let player, level, enemy;
-
-        function preload() {
-            this.load.image('player', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/cyborg.png');
-            this.load.image('enemy', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/lol.png');
-            this.load.image('ground', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/platform.png');
-            this.load.image('base', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/base.png');
-        }
-
-        function create() {
-            level = new Level(this);
-            player = new Player(this);
-            enemy = new Enemy(this);
-
-            // Colliders
-            this.physics.add.collider(player.sprite, level.ground);
-            this.physics.add.collider(player.sprite, level.platforms);
-            this.physics.add.collider(enemy.sprite, level.ground);
-            this.physics.add.collider(enemy.sprite, level.platforms);
-        }
-
-        function update() {
-            player.update();
-            enemy.update();
-        }
-    </script>
+    <script src = "main.js" type = "module"> </script>
 </head>
 <body>
 </body>
