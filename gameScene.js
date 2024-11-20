@@ -15,16 +15,16 @@ class GameScene extends Phaser.Scene {
     }
     
     create() {
-        this.keyboardp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+        this.keyboardp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         this.level = new Level(this);
         this.player = new Player(this);
         this.enemy = new Enemy(this);
     
         // Colliders
-        this.physics.add.collider(player.sprite, level.ground);
-        this.physics.add.collider(player.sprite, level.platforms);
-        this.physics.add.collider(enemy.sprite, level.ground);
-        this.physics.add.collider(enemy.sprite, level.platforms);
+        this.physics.add.collider(this.player.sprite, this.level.ground);
+        this.physics.add.collider(this.player.sprite, this.level.platforms);
+        this.physics.add.collider(this.enemy.sprite, this.level.ground);
+        this.physics.add.collider(this.enemy.sprite, this.level.platforms);
     }
     
     update() {
