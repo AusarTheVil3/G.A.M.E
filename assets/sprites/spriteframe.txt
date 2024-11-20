@@ -1,3 +1,11 @@
-flyguy fly 48x55
-flyguy idle 48x48
-flyguy walk 48x48
+player 
+    idle 
+    walk 
+    jump
+    basicattack 48x48
+
+flyguy 
+    fly 48x55
+    idle 48x48
+    walk 48x48
+
