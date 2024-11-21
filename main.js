@@ -3,6 +3,8 @@ import TitleScene from './scenes/titleScene.js';
 import GameScene from './scenes/gameScene.js';
 import PauseScene from './scenes/pauseScene.js';
 import LoadingScene from './scenes/loadingScene.js';
+import { saveGame, loadGame } from './savenload.js';
+
 
 
 const config = {
