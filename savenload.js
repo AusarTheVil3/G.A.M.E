@@ -1,64 +1,57 @@
-const config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    scene: {
-        preload: preload,
-        create: create,
-        update: update,
-    },
-};
+// Save game state
+export function saveGame(player, level, enemies) {
+    const state = {
+        player: {
+            x: player.sprite.x,
+            y: player.sprite.y,
+            animation: player.sprite.anims.currentAnim ? player.sprite.anims.currentAnim.key : 'idle',
+        },
+        level: {
+            ground: level.ground.getChildren().map(obj => ({ x: obj.x, y: obj.y })),
+            platforms: level.platforms.getChildren().map(obj => ({ x: obj.x, y: obj.y })),
+        },
+        enemies: enemies.map(enemy => ({
+            x: enemy.sprite.x,
+            y: enemy.sprite.y,
+            velocityX: enemy.sprite.body.velocity.x,
+        })),
+    };
 
-const game = new Phaser.Game(config);
-
-let player;
-let gameState = {
-    score: 0,
-    position: { x: 0, y: 0 },
-};
-
-function preload() {
-    this.load.image('player', 'path/to/player.png');
+    localStorage.setItem('gameState', JSON.stringify(state));
+    console.log('Game saved:', state);
 }
 
-function create() {
-    // Create the player sprite
-    player = this.add.sprite(400, 300, 'player');
-
-    // Load game state if available
-    const savedState = loadGame();
+// Load game state
+export function loadGame(player, level, enemies) {
+    const savedState = localStorage.getItem('gameState');
     if (savedState) {
-        gameState = savedState;
-        player.setPosition(gameState.position.x, gameState.position.y);
-    }
+        const state = JSON.parse(savedState);
 
-    // Save the game when 'S' is pressed
-    this.input.keyboard.on('keydown-S', () => {
-        gameState.position = { x: player.x, y: player.y };
-        saveGame(gameState);
-    });
+        // Load player state
+        player.sprite.setPosition(state.player.x, state.player.y);
+        player.sprite.anims.play(state.player.animation);
 
-    // Reset the game when 'L' is pressed
-    this.input.keyboard.on('keydown-L', () => {
-        const loadedState = loadGame();
-        if (loadedState) {
-            gameState = loadedState;
-            player.setPosition(gameState.position.x, gameState.position.y);
-        }
-    });
-}
+        // Load level state
+        level.ground.clear(true, true);
+        state.level.ground.forEach(pos => {
+            level.ground.create(pos.x, pos.y, 'ground').setScale(55).refreshBody();
+        });
 
-function update() {
-    // Example player movement
-    const cursors = this.input.keyboard.createCursorKeys();
-    if (cursors.left.isDown) {
-        player.x -= 5;
-    } else if (cursors.right.isDown) {
-        player.x += 5;
-    }
-    if (cursors.up.isDown) {
-        player.y -= 5;
-    } else if (cursors.down.isDown) {
-        player.y += 5;
+        level.platforms.clear(true, true);
+        state.level.platforms.forEach(pos => {
+            level.platforms.create(pos.x, pos.y, 'ground').setScale(3).refreshBody();
+        });
+
+        // Load enemies state
+        enemies.forEach((enemy, index) => {
+            if (state.enemies[index]) {
+                enemy.sprite.setPosition(state.enemies[index].x, state.enemies[index].y);
+                enemy.sprite.setVelocityX(state.enemies[index].velocityX);
+            }
+        });
+
+        console.log('Game loaded:', state);
+    } else {
+        console.log('No saved game found.');
     }
 }
