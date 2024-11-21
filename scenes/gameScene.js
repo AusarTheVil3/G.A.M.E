@@ -1,10 +1,11 @@
 import { Player } from '../player.js';
 import { Level } from '../level.js';
 import { Enemy } from '../enemy.js';
+import { saveGame, loadGame } from '../savenload.js'; // Import the save/load module
 
 class GameScene extends Phaser.Scene {
     constructor(){
-        super('gameScene')
+        super('gameScene');
     }
 
     preload() {
@@ -28,10 +29,18 @@ class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.player.sprite, this.level.platforms);
         this.physics.add.collider(this.enemy.sprite, this.level.ground);
         this.physics.add.collider(this.enemy.sprite, this.level.platforms);
+
+        // Add Save/Load functionality
+        this.input.keyboard.on('keydown-S', () => {
+            saveGame(this.player, this.level, [this.enemy]); // Save the game
+        });
+
+        this.input.keyboard.on('keydown-L', () => {
+            loadGame(this.player, this.level, [this.enemy]); // Load the game
+        });
     }
     
     update() {
-        
         if (Phaser.Input.Keyboard.JustDown(this.keyboardesc)) {
             this.scene.switch('titleScene');
         }
@@ -43,7 +52,6 @@ class GameScene extends Phaser.Scene {
         this.player.update();
         this.enemy.update();
     }
-
 }
 
 export default GameScene;
