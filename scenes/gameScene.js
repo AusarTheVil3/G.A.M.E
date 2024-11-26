@@ -1,6 +1,6 @@
-import { Player } from './player.js';
-import { Level } from './level.js';
-import { Enemy, Flyguy } from './enemy.js';
+import { Player } from '../player.js';
+import { Level } from '../level.js';
+import { Enemy } from '../enemy.js';
 
 class GameScene extends Phaser.Scene {
     constructor(){
@@ -12,17 +12,18 @@ class GameScene extends Phaser.Scene {
         this.player.preload();
         this.enemy = new Enemy(this);
         this.enemy.preload();
-        //this.load.image('ground', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/platform.png');
-        //this.load.image('base', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/base.png');
+        this.load.image('ground', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/platform.png');
+        this.load.image('base', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/base.png');
     }
     
     create() {
-        this.keyboardp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        this.keyboardesc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        this.keyboardp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+
         this.level = new Level(this);
         this.player.create();     
         this.enemy.create();
-        this.add.rectangle(800, 450, 50, 50, 0xff0000);
-    
+
         // Colliders
         this.physics.add.collider(this.player.sprite, this.level.ground);
         this.physics.add.collider(this.player.sprite, this.level.platforms);
@@ -32,8 +33,12 @@ class GameScene extends Phaser.Scene {
     
     update() {
         
-        if (Phaser.Input.Keyboard.JustDown(this.keyboardp)) {
+        if (Phaser.Input.Keyboard.JustDown(this.keyboardesc)) {
             this.scene.switch('titleScene');
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(this.keyboardp)) {
+            this.scene.switch('pauseScene');
         }
 
         this.player.update();
