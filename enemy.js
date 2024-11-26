@@ -51,7 +51,7 @@ export class Enemy {
       if (this.sprite.body.touching.down) {
           this.sprite.setVelocityY(0);
       }
-      this.sprite.anims.play('walk');
+      this.sprite.anims.play('ewalk');
   }
 }
 
