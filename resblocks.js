@@ -13,7 +13,7 @@ export class ResBlocks extends Phaser.Physics.Arcade.StaticGroup {
     scene.load.image('top_block', 'assets/blocks/ground_top.png');
     scene.load.image('middle_block', 'assets/blocks/ground_middle.png');
     
-    }   
+  }   
 
 
   addLayer(layerIndex, texture) {
@@ -60,6 +60,7 @@ export class ResBlocks extends Phaser.Physics.Arcade.StaticGroup {
           // Save the resource as a custom property on the block\
 
           block.setData('resource', randomResource);
+          
 
           // Add the icon overlaying the block
           if (randomResource !== null) {
@@ -69,5 +70,7 @@ export class ResBlocks extends Phaser.Physics.Arcade.StaticGroup {
 
       }
   }
+
+
 }
 
