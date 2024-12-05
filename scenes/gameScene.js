@@ -1,7 +1,7 @@
 import { Player } from '../player.js';
 import { Level } from '../level.js';
-//import { Enemy } from '../enemy.js';
 import {ResBlocks} from '../resblocks.js';
+import { Enemy } from '../enemy.js';
 
 class GameScene extends Phaser.Scene {
     constructor(){
@@ -9,15 +9,17 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        this.player = new Player(this);
-        this.player.preload();
-        //this.enemy = new Enemy(this);
-        //this.enemy.preload();
-        this.resBlocks = new ResBlocks(this);
-        this.resBlocks.preload();
+        Player.preload(this)
+        ResBlocks.preload(this)
+        Enemy.preload(this)
         this.load.image('ground', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/platform.png');
         this.load.image('base', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/base.png');
         this.load.image('background', 'assets/background/sky.png');
+        this.load.image('resource_one', 'assets/resources/1 icons/Icon14_01.png')
+        this.load.image('resource_two', 'assets/resources/1 icons/Icon14_03.png')
+        this.load.image('resource_three', 'assets/resources/1 icons/Icon14_05.png')
+        this.load.image('resource_four', 'assets/resources/1 icons/Icon14_24.png')
+        this.load.image('puzzle', 'assets/resources/1 icons/Icon14_22.png')
     }
     
     create() {

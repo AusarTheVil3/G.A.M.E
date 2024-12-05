@@ -2,17 +2,18 @@ var centerX = 800 / 2, centerY = 800 / 2;
 var scale = 2;
 export class Player {
 
-    preload(){
+    static preload(scene){
         // Load the spritesheets for idle and walking animations
-        this.scene.load.spritesheet('player_idle', 'assets/spritesheets/hero_idlesheet.png', { frameWidth: 44, frameHeight: 48 });
-        this.scene.load.spritesheet('player_walk', 'assets/spritesheets/hero_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
-        this.scene.load.spritesheet('player_jump', 'assets/spritesheets/hero_jumpsheet.png', { frameWidth: 44, frameHeight: 48 });
-        this.scene.load.spritesheet('player_basicattack', 'assets/spritesheets/hero_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
+        scene.load.spritesheet('player_idle', 'assets/spritesheets/hero_idlesheet.png', { frameWidth: 44, frameHeight: 48 });
+        scene.load.spritesheet('player_walk', 'assets/spritesheets/hero_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
+        scene.load.spritesheet('player_jump', 'assets/spritesheets/hero_jumpsheet.png', { frameWidth: 44, frameHeight: 48 });
+        scene.load.spritesheet('player_basicattack', 'assets/spritesheets/hero_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
 
     }   
     
     create(){
         console.log('Player creation');
+        
 
         const scaleFactor = 0.7; // Example: scale down the collision box to 80%
         this.sprite.setScale(scale); // Scale the visual sprite
@@ -55,8 +56,8 @@ export class Player {
     constructor(scene) {
         this.scene = scene;
         this.sprite = this.scene.physics.add.sprite(centerX, centerY, 'player_idle').setScale(1.5);
-        this.sprite.setBounce(0.2);
         this.sprite.setCollideWorldBounds(true);
+        this.sprite.setBounce(0.2);
 
         // Input controls (WASD)
         this.cursors = this.scene.input.keyboard.addKeys({
