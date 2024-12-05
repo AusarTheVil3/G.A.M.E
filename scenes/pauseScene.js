@@ -30,6 +30,7 @@ class PauseScene extends Phaser.Scene {
 
     update(){
         if (Phaser.Input.Keyboard.JustDown(this.keyboardp)) {
+            //this.scene.start('HUDScene');
             this.scene.switch('gameScene');
         }
     }

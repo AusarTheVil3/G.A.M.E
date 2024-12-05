@@ -12,7 +12,7 @@ class LoadingScene extends Phaser.Scene {
         this.statusText = this.add.text(400, 400, "Loading");
 
         this.time.addEvent({
-            delay: 5000,                  // 5 seconds (in milliseconds)
+            delay: 1000,                  // 5 seconds (in milliseconds)
             callback: this.resumeScene,  // Function to call after the delay
             callbackScope: this          // Scope for the callback function
         });
