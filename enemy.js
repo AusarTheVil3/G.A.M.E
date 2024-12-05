@@ -8,11 +8,11 @@ export class Enemy {
       this.sprite.setVelocityX(200);
   }
 
-  preload(){
+  static preload(scene){
     // Load the spritesheets for idle and walking animations
-    this.scene.load.spritesheet('enemy_idle', 'assets/sprites/enemies/flyguy/flyguy_idlesheet.png', { frameWidth: 44, frameHeight: 48 });
-    this.scene.load.spritesheet('enemy_walk', 'assets/sprites/enemies/flyguy/flyguy_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
-    this.scene.load.spritesheet('enemy_up', 'assets/sprites/enemies/flyguy/flyguy_flysheet.png', { frameWidth: 44, frameHeight: 48 });
+    scene.load.spritesheet('enemy_idle', 'assets/sprites/enemies/flyguy/flyguy_idlesheet.png', { frameWidth: 44, frameHeight: 48 });
+    scene.load.spritesheet('enemy_walk', 'assets/sprites/enemies/flyguy/flyguy_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
+    scene.load.spritesheet('enemy_up', 'assets/sprites/enemies/flyguy/flyguy_flysheet.png', { frameWidth: 44, frameHeight: 48 });
   }  
 
   create() {
