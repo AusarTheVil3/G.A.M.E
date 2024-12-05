@@ -56,9 +56,12 @@ class GameScene extends Phaser.Scene {
 
         this.platformLayer = new PlatformLayer(this);
 
-        this.platformLayer.addPlatform(100,450);
-        this.platformLayer.addPlatform(200,350);
-        
+        let base = 450
+        let i = 0;
+        for (i = 0; i < 10; i++) {
+            this.platformLayer.addPlatform(0, base - (i * 110));
+        }
+        this.platformLayer.addBasePlat(base - (i * 110))
 
         this.player.create();     
         //this.enemy.create();
