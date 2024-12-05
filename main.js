@@ -7,7 +7,7 @@ import LoadingScene from './scenes/loadingScene.js';
 
 const config = {
     type: Phaser.AUTO,
-    width: 1250,
+    width: 800,
     height: 800,
     physics: {
         default: 'arcade',

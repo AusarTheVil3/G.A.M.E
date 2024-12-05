@@ -1,4 +1,5 @@
-var centerX = 1250 / 4, centerY = 850 / 4;
+var centerX = 800 / 2, centerY = 800 / 2;
+var scale = 2;
 export class Player {
 
     preload(){
@@ -13,7 +14,13 @@ export class Player {
     create(){
         console.log('Player creation');
 
-        this.sprite.setScale(1.5);
+        const scaleFactor = 0.7; // Example: scale down the collision box to 80%
+        this.sprite.setScale(scale); // Scale the visual sprite
+        this.sprite.body.setSize(
+            this.sprite.width * scaleFactor - 10,
+            this.sprite.height * scaleFactor
+        );
+
 
         // Use the sprite initialized in the constructor
         this.sprite.setTexture('player_idle');
@@ -65,13 +72,13 @@ export class Player {
         // Movement controls
         if (this.cursors.left.isDown) {
             this.sprite.setVelocityX(-160);
-            this.sprite.setScale(-1.5, 1.5);  // Flip sprite for left movement
+            this.sprite.setFlipX(true);  // Flip sprite for left movement
             if (this.sprite.anims.currentAnim.key !== 'walk') {
                 this.sprite.anims.play('walk');
             }
         } else if (this.cursors.right.isDown) {
             this.sprite.setVelocityX(160);
-            this.sprite.setScale(1.5, 1.5);  // Face sprite right
+            this.sprite.setFlipX(false);  // Flip sprite for left movement
             if (this.sprite.anims.currentAnim.key !== 'walk') {
                 this.sprite.anims.play('walk');
             }
@@ -85,7 +92,7 @@ export class Player {
 
         // Jumping mechanics
         if (this.cursors.space.isDown && this.sprite.body.touching.down) {
-            this.sprite.setVelocityY(-300); // Jump height
+            this.sprite.setVelocityY(-350); // Jump height
             if (this.sprite.anims.currentAnim.key !== 'jump') {
                 this.sprite.anims.play('jump');
             }

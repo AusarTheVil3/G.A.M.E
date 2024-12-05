@@ -10,8 +10,8 @@ class TitleScene extends Phaser.Scene {
     }
 
     create(){
-        let Background = this.add.image(650,500,'Background');
-        let startButton = this.add.image(650,550,'StartButton');
+        let Background = this.add.image(400,400,'Background');
+        let startButton = this.add.image(400,400,'StartButton');
         startButton.setInteractive();
         startButton.on('pointerdown', ()=>{
             startButton.setScale(1.25);

@@ -9,7 +9,7 @@ class LoadingScene extends Phaser.Scene {
     }
 
     create(){
-        this.statusText = this.add.text(600, 600, "Loading");
+        this.statusText = this.add.text(400, 400, "Loading");
 
         this.time.addEvent({
             delay: 5000,                  // 5 seconds (in milliseconds)
