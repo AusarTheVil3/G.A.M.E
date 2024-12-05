@@ -43,8 +43,8 @@ class GameScene extends Phaser.Scene {
         this.resBlocks.addLayer(15,'middle_block');
         this.resBlocks.addLayer(16,'middle_block');
 
-        this.resBlocks.addPlatform(100,450, ""); // 10 blocks wide at y=400
-        this.resBlocks.addPlatform(200,350, ""); // 10 blocks wide at y=400
+        this.resBlocks.addPlatform(100,450, "platform_block"); // 10 blocks wide at y=400
+        this.resBlocks.addPlatform(200,350, "platform_block"); // 10 blocks wide at y=400
         
 
         this.player.create();     

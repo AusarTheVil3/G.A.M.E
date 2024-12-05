@@ -12,6 +12,7 @@ export class ResBlocks extends Phaser.Physics.Arcade.StaticGroup {
     // Load the spritesheets for idle and walking animations
     scene.load.image('top_block', 'assets/blocks/ground_top.png');
     scene.load.image('middle_block', 'assets/blocks/ground_middle.png');
+    scene.load.image('platform_block', 'assets/tilesets/abandoned/1 Tiles/Tile_46.png')
     
     }   
 
