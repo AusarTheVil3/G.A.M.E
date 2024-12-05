@@ -57,7 +57,7 @@ export class Player {
     constructor(scene) {
         this.scene = scene;
         this.sprite = this.scene.physics.add.sprite(centerX, centerY, 'player_idle').setScale(1.5);
-        this.sprite.setCollideWorldBounds(true);
+        this.sprite.setCollideWorldBounds(false); //allows player to go up infinitely
         this.sprite.setBounce(0.2);
 
         // Input controls (WASD)
@@ -94,11 +94,24 @@ export class Player {
         }
 
         // Jumping mechanics
-        if (this.cursors.space.isDown && this.sprite.body.touching.down) {
+        if (this.cursors.space.isDown && this.jumpKeyReleased && this.sprite.body.touching.down) {
             this.sprite.setVelocityY(-350); // Jump height
-            if (this.sprite.anims.currentAnim.key !== 'jump') {
-                this.sprite.anims.play('jump');
-            }
+            this.sprite.anims.play('jump', true);
+            this.jumpKeyReleased = false; // Disable jumping until the key is released
+        }
+
+        // Reset jumpKeyReleased when the jump key is released
+        if (!this.cursors.space.isDown) {
+            this.jumpKeyReleased = true;
+        }
+        else {
+            this.jumpKeyReleased = false;
+        }
+         // Constrain the player to the screen width
+         if (this.sprite.x < 0) {
+            this.sprite.x = 0; // Prevent moving past the left edge
+        } else if (this.sprite.x > this.scene.scale.width) {
+            this.sprite.x = this.scene.scale.width; // Prevent moving past the right edge
         }
     }
 }

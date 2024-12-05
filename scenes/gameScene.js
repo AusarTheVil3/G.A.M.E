@@ -2,6 +2,7 @@ import { Player } from '../player.js';
 import { Level } from '../level.js';
 import {ResBlocks} from '../resblocks.js';
 import { Enemy } from '../enemy.js';
+import { PlatformLayer } from '../platformLayer.js';
 
 
 class GameScene extends Phaser.Scene {
@@ -13,6 +14,7 @@ class GameScene extends Phaser.Scene {
         Player.preload(this, this.registry)
         ResBlocks.preload(this)
         Enemy.preload(this)
+        PlatformLayer.preload(this)
         this.load.image('ground', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/platform.png');
         this.load.image('base', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/base.png');
         this.load.image('background', 'assets/background/sky.png');
@@ -46,8 +48,10 @@ class GameScene extends Phaser.Scene {
         this.resBlocks.addLayer(15,'middle_block');
         this.resBlocks.addLayer(16,'middle_block');
 
-        this.resBlocks.addPlatform(100,450, ""); // 10 blocks wide at y=400
-        this.resBlocks.addPlatform(200,350, ""); // 10 blocks wide at y=400
+        this.platformLayer = new PlatformLayer(this);
+
+        this.platformLayer.addPlatform(100,450);
+        this.platformLayer.addPlatform(200,350);
         
 
         this.player.create();     
@@ -58,6 +62,7 @@ class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.player.sprite, this.level.ground);
         this.physics.add.collider(this.player.sprite, this.level.platforms);
         this.physics.add.collider(this.player.sprite, this.resBlocks);
+        this.physics.add.collider(this.player.sprite, this.platformLayer);
 
         this.physics.world.createDebugGraphic()
     }
