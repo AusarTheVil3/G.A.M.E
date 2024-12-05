@@ -15,8 +15,6 @@ class GameScene extends Phaser.Scene {
         ResBlocks.preload(this)
         Enemy.preload(this)
         PlatformLayer.preload(this)
-        this.load.image('ground', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/platform.png');
-        this.load.image('base', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/base.png');
         this.load.image('background', 'assets/background/sky.png');
         this.load.image('resource_one', 'assets/resources/1 icons/Icon14_01.png')
         this.load.image('resource_two', 'assets/resources/1 icons/Icon14_03.png')
@@ -31,7 +29,14 @@ class GameScene extends Phaser.Scene {
 
         this.scene.launch('HUDScene');
 
-        this.add.tileSprite(0, 0, this.scale.width, this.scale.height, 'background').setOrigin(0, 0);
+        const bg = this.add.image(0, 0, 'background');
+
+        // Set the origin to the top-left corner
+        bg.setOrigin(0, 0);
+
+        // Stretch the image to fill the screen
+        bg.setDisplaySize(this.scale.width, this.scale.height);
+        bg.setScrollFactor(0)
 
         this.level = new Level(this);
         this.player = new Player(this);
@@ -59,8 +64,6 @@ class GameScene extends Phaser.Scene {
 
 
         // Colliders
-        this.physics.add.collider(this.player.sprite, this.level.ground);
-        this.physics.add.collider(this.player.sprite, this.level.platforms);
         this.physics.add.collider(this.player.sprite, this.resBlocks);
         this.physics.add.collider(this.player.sprite, this.platformLayer);
 
