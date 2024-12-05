@@ -11,7 +11,7 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        Player.preload(this, this.registry)
+        Player.preload(this)
         ResBlocks.preload(this)
         Enemy.preload(this)
         PlatformLayer.preload(this)
@@ -28,6 +28,7 @@ class GameScene extends Phaser.Scene {
     create() {
         this.keyboardesc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         this.keyboardp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+        this.keyboarde = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
 
         this.scene.launch('HUDScene');
 
@@ -79,12 +80,58 @@ class GameScene extends Phaser.Scene {
             //this.scene.stop('HUDScene');
             this.scene.switch('pauseScene');
         }
+
+        if (Phaser.Input.Keyboard.JustDown(this.keyboarde)){
+            this.mineBlock();
+        }
          
         
         
         this.player.update();
         //this.enemy.update();
+        this.updateRegistry();
     }
+
+
+    //Will mine blocks in front of and underneath the player when pressing E   
+    mineBlock(){
+     // Get bounds of the player's body
+    const playerBounds = this.player.sprite.getBounds();
+
+    // Find the block below or overlapping with player
+    const blockBelow = this.resBlocks.getChildren().find(block => {
+        return Phaser.Geom.Intersects.RectangleToRectangle(
+        playerBounds,
+        block.getBounds()
+    );
+    });
+
+    if (blockBelow) {
+        if (blockBelow.getData('resource') != null){
+            this.player.resources_Map[blockBelow.getData('resource')] += 1 ;
+        }
+        blockBelow.destroy();
+        
+
+    // Remove associated icon
+    const icon = this.resBlocks.iconGroup.getChildren().find(icon =>
+      Phaser.Geom.Intersects.RectangleToRectangle(icon.getBounds(), blockBelow.getBounds())
+        );
+        if (icon) icon.destroy();
+    }
+
+    
+    }  
+
+    updateRegistry() {
+        this.registry.set('health', this.player.resources_Map["health"]);
+        this.registry.set('resource_one', this.player.resources_Map["resource_one"]);
+        this.registry.set('resource_two', this.player.resources_Map["resource_two"]);
+        this.registry.set('resource_three', this.player.resources_Map["resource_three"]);
+        this.registry.set('resource_four', this.player.resources_Map["resource_four"]);
+    }
+
+    
 
 }
 

@@ -2,6 +2,8 @@ var centerX = 800 / 2, centerY = 800 / 2;
 var scale = 2;
 export class Player {
 
+
+
     static preload(scene){
         // Load the spritesheets for idle and walking animations
         scene.load.spritesheet('player_idle', 'assets/spritesheets/hero_idlesheet.png', { frameWidth: 44, frameHeight: 48 });
@@ -48,13 +50,25 @@ export class Player {
             frameRate: 8,
             repeat: 0  // Play once per jump
         });
-
+        
 
         // Start with the idle animation
         this.sprite.anims.play('idle');
+
+        this.resources_Map = {
+            "health":100,
+            "resource_one":0,
+            "resource_two":0,
+            "resource_three":0,
+            "resource_four":0   
+        }
     }
 
     constructor(scene) {
+        
+        
+       
+    
         this.scene = scene;
         this.sprite = this.scene.physics.add.sprite(centerX, centerY, 'player_idle').setScale(1.5);
         this.sprite.setCollideWorldBounds(false); //allows player to go up infinitely
@@ -113,5 +127,7 @@ export class Player {
         } else if (this.sprite.x > this.scene.scale.width) {
             this.sprite.x = this.scene.scale.width; // Prevent moving past the right edge
         }
+
+       
     }
 }
