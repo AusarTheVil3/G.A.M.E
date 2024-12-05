@@ -2,14 +2,14 @@
 export class Level {
     constructor(scene) {
         this.scene = scene;
-        this.createBase();
+        //this.createBase();
         this.createGround();
         this.createPlatforms();
     }
 
     createBase() {
         // Create the base at the top
-        this.scene.add.image(window.innerWidth / 2, 100, 'base').setOrigin(0.5, 0.5).setScale(2);
+        //this.scene.add.image(window.innerWidth / 2, 100, 'base').setOrigin(0.5, 0.5).setScale(2);
     }
 
     createGround() {
