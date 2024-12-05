@@ -92,13 +92,16 @@ export class Player {
         }
 
         // Jumping mechanics
-        if (this.cursors.space.isDown && this.sprite.body.touching.down) {
+        if (this.cursors.space.isDown && this.jumpKeyReleased && this.sprite.body.touching.down) {
             this.sprite.setVelocityY(-350); // Jump height
-            if (this.sprite.anims.currentAnim.key !== 'jump') {
-                this.sprite.anims.play('jump');
-            }
+            this.sprite.anims.play('jump', true);
+            this.jumpKeyReleased = false; // Disable jumping until the key is released
         }
 
+        // Reset jumpKeyReleased when the jump key is released
+        if (!this.cursors.space.isDown) {
+            this.jumpKeyReleased = true;
+        }
          // Constrain the player to the screen width
          if (this.sprite.x < 0) {
             this.sprite.x = 0; // Prevent moving past the left edge
