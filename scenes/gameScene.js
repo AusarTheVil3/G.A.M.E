@@ -10,7 +10,7 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        Player.preload(this)
+        Player.preload(this, this.registry)
         ResBlocks.preload(this)
         Enemy.preload(this)
         this.load.image('ground', 'https://opengameart.org/sites/default/files/styles/medium/public/asset/platform.png');
@@ -75,7 +75,7 @@ class GameScene extends Phaser.Scene {
             this.scene.switch('pauseScene');
         }
          
-        this.registry.inc('health', -0.125);
+        
         
         this.player.update();
         //this.enemy.update();

@@ -8,6 +8,7 @@ export class Player {
         scene.load.spritesheet('player_walk', 'assets/spritesheets/hero_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
         scene.load.spritesheet('player_jump', 'assets/spritesheets/hero_jumpsheet.png', { frameWidth: 44, frameHeight: 48 });
         scene.load.spritesheet('player_basicattack', 'assets/spritesheets/hero_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
+        
 
     }   
     
@@ -78,6 +79,7 @@ export class Player {
                 this.sprite.anims.play('walk');
             }
         } else if (this.cursors.right.isDown) {
+            
             this.sprite.setVelocityX(160);
             this.sprite.setFlipX(false);  // Flip sprite for left movement
             if (this.sprite.anims.currentAnim.key !== 'walk') {
