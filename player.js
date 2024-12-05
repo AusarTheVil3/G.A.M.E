@@ -58,7 +58,7 @@ export class Player {
         this.scene = scene;
         this.sprite = this.scene.physics.add.sprite(centerX, centerY, 'player_idle').setScale(1.5);
         this.sprite.setCollideWorldBounds(false); //allows player to go up infinitely
-        this.sprite.setBounce(0.2);
+        this.sprite.setBounce(0);
 
         // Input controls (WASD)
         this.cursors = this.scene.input.keyboard.addKeys({
