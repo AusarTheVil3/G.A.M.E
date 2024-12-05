@@ -102,6 +102,9 @@ export class Player {
         if (!this.cursors.space.isDown) {
             this.jumpKeyReleased = true;
         }
+        else {
+            this.jumpKeyReleased = false;
+        }
          // Constrain the player to the screen width
          if (this.sprite.x < 0) {
             this.sprite.x = 0; // Prevent moving past the left edge
