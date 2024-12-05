@@ -3,6 +3,7 @@ import { Level } from '../level.js';
 //import { Enemy } from '../enemy.js';
 import {ResBlocks} from '../resblocks.js';
 
+
 class GameScene extends Phaser.Scene {
     constructor(){
         super('gameScene')
@@ -23,6 +24,8 @@ class GameScene extends Phaser.Scene {
     create() {
         this.keyboardesc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         this.keyboardp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+
+        this.scene.launch('HUDScene');
 
         this.add.tileSprite(0, 0, this.scale.width, this.scale.height, 'background').setOrigin(0, 0);
 
@@ -60,10 +63,13 @@ class GameScene extends Phaser.Scene {
     update() {
         
         if (Phaser.Input.Keyboard.JustDown(this.keyboardesc)) {
+            //this.scene.stop('HUDScene');
             this.scene.switch('titleScene');
+            
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.keyboardp)) {
+            //this.scene.stop('HUDScene');
             this.scene.switch('pauseScene');
         }
         
