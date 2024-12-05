@@ -5,12 +5,14 @@ export class ResBlocks extends Phaser.Physics.Arcade.StaticGroup {
 
       // Add this group to the scene
       scene.add.existing(this);
+      this.iconGroup = scene.add.group();
   }
 
-  preload(){
+  static preload(scene){
     // Load the spritesheets for idle and walking animations
-    this.scene.load.image('top_block', 'assets/blocks/ground_top.png');
-    this.scene.load.image('middle_block', 'assets/blocks/ground_middle.png');
+    scene.load.image('top_block', 'assets/blocks/ground_top.png');
+    scene.load.image('middle_block', 'assets/blocks/ground_middle.png');
+    
     }   
 
 
@@ -31,6 +33,40 @@ export class ResBlocks extends Phaser.Physics.Arcade.StaticGroup {
 
           // Update the physics body to match the scaled size
           block.body.updateFromGameObject();
+          
+          const resources = [
+            { key: 'resource_one', weight: 10 },
+            { key: 'resource_two', weight: 10 }, 
+            { key: 'resource_three', weight: 10 }, 
+            { key: 'resource_four', weight: 10 },  
+            { key: 'puzzle', weight: 1 },  
+            { key: null, weight: 55 },           
+        ];
+
+        const getRandomResource = (resources) => {
+            const totalWeight = resources.reduce((sum, resource) => sum + resource.weight, 0);
+            const random = Phaser.Math.FloatBetween(0, totalWeight);
+    
+            let runningSum = 0;
+            for (const resource of resources) {
+                runningSum += resource.weight;
+                if (random <= runningSum) {
+                    return resource.key;
+                }
+            }
+            return null; // Fallback (no resource)
+        };
+        const randomResource = getRandomResource(resources);
+          // Save the resource as a custom property on the block\
+
+          block.setData('resource', randomResource);
+
+          // Add the icon overlaying the block
+          if (randomResource !== null) {
+            const resourceIcon = this.scene.add.image(blockX, layerY, randomResource).setScale(1);
+            this.iconGroup.add(resourceIcon);
+          }
+
       }
   }
 
@@ -51,7 +87,8 @@ export class ResBlocks extends Phaser.Physics.Arcade.StaticGroup {
         // Update the physics body to match the scaled size
         block.body.updateFromGameObject();
         block.body.checkCollision.down = false;
-
+        block.body.checkCollision.left = false;
+        block.body.checkCollision.right = false;
     }
 } 
 }
