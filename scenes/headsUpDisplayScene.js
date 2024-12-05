@@ -14,11 +14,13 @@ class HUDScene extends Phaser.Scene {
         this.health_value = 100
         this.healthText = this.add.text(50,18,this.health_value, {fontSize: '25px',
             fill: '#000',});
+
+        this.registry.events.on('changedata-health', (parent,value) => {this.healthText.setText(`${value}`)});
         
     }
 
     update(){
-
+        
     }
 
 

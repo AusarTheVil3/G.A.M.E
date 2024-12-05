@@ -72,7 +72,8 @@ class GameScene extends Phaser.Scene {
             //this.scene.stop('HUDScene');
             this.scene.switch('pauseScene');
         }
-        
+         
+        this.registry.inc('health', -0.125);
         
         this.player.update();
         //this.enemy.update();
