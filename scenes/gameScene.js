@@ -47,21 +47,17 @@ class GameScene extends Phaser.Scene {
          // Add some blocks
         this.resBlocks = new ResBlocks(this);
         this.resBlocks.addLayer(10,'top_block');
-        this.resBlocks.addLayer(11,'middle_block');
-        this.resBlocks.addLayer(12,'middle_block');
-        this.resBlocks.addLayer(13,'middle_block');
-        this.resBlocks.addLayer(14,'middle_block');
-        this.resBlocks.addLayer(15,'middle_block');
-        this.resBlocks.addLayer(16,'middle_block');
-
         this.platformLayer = new PlatformLayer(this);
 
         let base = 450
         let i = 0;
         for (i = 0; i < 10; i++) {
             this.platformLayer.addPlatform(0, base - (i * 110));
+            this.resBlocks.addLayer(11 + i,'middle_block');
         }
         this.platformLayer.addBasePlat(base - (i * 110))
+
+        this.resBlocks.addLayer(10 + i,'bottom_block')
 
         this.player.create();     
         //this.enemy.create();
@@ -101,7 +97,7 @@ class GameScene extends Phaser.Scene {
 
     //Will mine blocks in front of and underneath the player when pressing E   
     mineBlock(){
-     // Get bounds of the player's body
+        // Get bounds of the player's body
     const playerBounds = this.player.sprite.getBounds();
 
     // Find the block below or overlapping with player
@@ -116,15 +112,17 @@ class GameScene extends Phaser.Scene {
         if (blockBelow.getData('resource') != null){
             this.player.resources_Map[blockBelow.getData('resource')] += 1 ;
         }
+        if (blockBelow.getData('mineable') == true)
         blockBelow.destroy();
         
 
     // Remove associated icon
     const icon = this.resBlocks.iconGroup.getChildren().find(icon =>
-      Phaser.Geom.Intersects.RectangleToRectangle(icon.getBounds(), blockBelow.getBounds())
+        Phaser.Geom.Intersects.RectangleToRectangle(icon.getBounds(), blockBelow.getBounds())
         );
         if (icon) icon.destroy();
     }
+
 
     
     }  

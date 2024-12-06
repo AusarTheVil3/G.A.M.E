@@ -12,6 +12,7 @@ export class ResBlocks extends Phaser.Physics.Arcade.StaticGroup {
     // Load the spritesheets for idle and walking animations
     scene.load.image('top_block', 'assets/blocks/ground_top.png');
     scene.load.image('middle_block', 'assets/blocks/ground_middle.png');
+    scene.load.image('bottom_block', 'assets/tilesets/abandoned/1 Tiles/Tile_24.png');
     
   }   
 
@@ -46,7 +47,7 @@ export class ResBlocks extends Phaser.Physics.Arcade.StaticGroup {
         const getRandomResource = (resources) => {
             const totalWeight = resources.reduce((sum, resource) => sum + resource.weight, 0);
             const random = Phaser.Math.FloatBetween(0, totalWeight);
-    
+          
             let runningSum = 0;
             for (const resource of resources) {
                 runningSum += resource.weight;
@@ -56,11 +57,20 @@ export class ResBlocks extends Phaser.Physics.Arcade.StaticGroup {
             }
             return null; // Fallback (no resource)
         };
-        const randomResource = getRandomResource(resources);
+
+        var randomResource = getRandomResource(resources);
           // Save the resource as a custom property on the block\
 
-          block.setData('resource', randomResource);
+          if (texture == "bottom_block")
+          {
+            randomResource = null;
+            block.setData('mineable', false);
+          }
+          else {
+            block.setData('mineable', true);
+          }
           
+          block.setData('resource', randomResource);
 
           // Add the icon overlaying the block
           if (randomResource !== null) {

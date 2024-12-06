@@ -12,8 +12,8 @@ class PauseScene extends Phaser.Scene {
     }
 
     create(){
-        let pauseScreen = this.add.image(650,500,'pauseScreen');
-        let backtoGameButton = this.add.image(650,600,'backToGameButton');
+        let pauseScreen = this.add.image(400,400,'pauseScreen');
+        let backtoGameButton = this.add.image(400,400,'backToGameButton');
         backtoGameButton.setInteractive();
 
         backtoGameButton.on('pointerdown', ()=>{
