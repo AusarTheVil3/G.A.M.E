@@ -31,6 +31,16 @@ class GameScene extends Phaser.Scene {
         this.keyboardp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
         this.keyboarde = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
 
+        this.miningTimer = 0;
+        this.miningThreshold=500;
+        this.keyboarde.on('down', () => {
+            this.miningTimer = 0; // Reset timer when the key is pressed
+          });
+      
+          this.keyboarde.on('up', () => {
+            this.miningTimer = 0; // Reset timer when the key is released
+          });
+
         this.scene.launch('HUDScene');
 
         this.basePlat = new BasePlat(this);
@@ -172,11 +182,13 @@ class GameScene extends Phaser.Scene {
             this.scene.switch('pauseScene');
         }
 
-        if (Phaser.Input.Keyboard.JustDown(this.keyboarde)){
-            this.mineBlock();
+        if (this.keyboarde.isDown) {
+            this.miningTimer += this.player.resources_Map["mining_Speed"]; // Increment the hold timer
+        if (this.miningTimer >= this.miningThreshold) {
+            this.mineBlock(); // Call the function after threshold
+            this.miningTimer = 0; // Reset timer to prevent repeated calls
         }
-         
-        
+        }
         
         this.player.update();
         //this.enemy.update();
@@ -187,17 +199,15 @@ class GameScene extends Phaser.Scene {
     //Will mine blocks in front of and underneath the player when pressing E   
     mineBlock(){
         // Get bounds of the player's body
-    const playerBounds = this.player.sprite.getBounds();
+        const playerBounds = this.player.sprite.getBounds();
 
-    // Find the block below or overlapping with player
-    const blockBelow = this.resBlocks.getChildren().find(block => {
-        return Phaser.Geom.Intersects.RectangleToRectangle(
-        playerBounds,
-        block.getBounds()
-    );
-    });
+        // Find the block below or overlapping with player
+        const blockBelow = this.resBlocks.getChildren().find(block => {
+            return Phaser.Geom.Intersects.RectangleToRectangle(playerBounds, block.getBounds());});
 
     if (blockBelow) {
+        //if the block held a resource then give that resource to the player
+        //via the resources_Map
         if (blockBelow.getData('resource') != null){
             this.player.resources_Map[blockBelow.getData('resource')] += 1 ;
         }
@@ -205,14 +215,12 @@ class GameScene extends Phaser.Scene {
         blockBelow.destroy();
         
 
-    // Remove associated icon
-    const icon = this.resBlocks.iconGroup.getChildren().find(icon =>
+        // Remove associated icon
+        const icon = this.resBlocks.iconGroup.getChildren().find(icon =>
         Phaser.Geom.Intersects.RectangleToRectangle(icon.getBounds(), blockBelow.getBounds())
         );
         if (icon) icon.destroy();
     }
-
-    }  
 
     updateRegistry() {
         this.registry.set('health', this.player.resources_Map["health"]);
