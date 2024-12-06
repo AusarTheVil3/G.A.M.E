@@ -1,8 +1,6 @@
-var centerX = 800 / 2, centerY = 800 / 2;
+var centerX = 700 / 2, centerY = 800 / 2;
 var scale = 2;
 export class Player {
-
-
 
     static preload(scene){
         // Load the spritesheets for idle and walking animations
@@ -17,7 +15,6 @@ export class Player {
     create(){
         console.log('Player creation');
         
-
         const scaleFactor = 0.7; // Example: scale down the collision box to 80%
         this.sprite.setScale(scale); // Scale the visual sprite
         this.sprite.body.setSize(
@@ -67,9 +64,6 @@ export class Player {
 
     constructor(scene) {
         
-        
-       
-    
         this.scene = scene;
         this.sprite = this.scene.physics.add.sprite(centerX, centerY, 'player_idle').setScale(1.5);
         this.sprite.setCollideWorldBounds(false); //allows player to go up infinitely
@@ -86,6 +80,8 @@ export class Player {
     }
 
     update() {
+
+        
         // Movement controls
         if (this.cursors.left.isDown) {
             this.sprite.setVelocityX(-160);
