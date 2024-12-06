@@ -60,7 +60,8 @@ export class Player {
             "resource_one":0,
             "resource_two":0,
             "resource_three":0,
-            "resource_four":0   
+            "resource_four":0,
+            "mining_Speed":15   
         }
     }
 
