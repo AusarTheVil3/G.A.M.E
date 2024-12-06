@@ -209,7 +209,7 @@ class GameScene extends Phaser.Scene {
         //if the block held a resource then give that resource to the player
         //via the resources_Map
         if (blockBelow.getData('resource') != null){
-            this.player.resources_Map[blockBelow.getData('resource')] += 1 ;
+            this.player.resources_Map[blockBelow.getData('resource')] += 1;
         }
         if (blockBelow.getData('mineable') == true)
         blockBelow.destroy();
@@ -220,6 +220,8 @@ class GameScene extends Phaser.Scene {
         Phaser.Geom.Intersects.RectangleToRectangle(icon.getBounds(), blockBelow.getBounds())
         );
         if (icon) icon.destroy();
+    }
+
     }
 
     updateRegistry() {
