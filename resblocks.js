@@ -81,6 +81,31 @@ export class ResBlocks extends Phaser.Physics.Arcade.StaticGroup {
       }
   }
 
+  deleteAll() {
+    // Safely destroy all children in the group
+    this.getChildren().forEach((child) => {
+        if (child) {
+            // Remove and destroy the physics body
+            if (child.body) {
+                this.scene.physics.world.remove(child.body);
+                child.body.destroy();
+            }
 
+            // Destroy the block game object
+            child.destroy();
+        }
+    });
+
+    // Clear the group itself
+    this.clear(true, true); // Ensure group is cleared and children are removed
+
+    // Destroy all icons in the iconGroup
+    this.iconGroup.getChildren().forEach((icon) => {
+        icon.destroy();
+    });
+
+    // Clear the iconGroup
+    this.iconGroup.clear(true, true);
+}
 }
 

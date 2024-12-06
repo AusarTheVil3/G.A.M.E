@@ -3,11 +3,13 @@ import { Level } from '../level.js';
 import {ResBlocks} from '../resblocks.js';
 import { Enemy } from '../enemy.js';
 import { PlatformLayer } from '../platformLayer.js';
+import { BasePlat } from '../basePlat.js';
 
 
 class GameScene extends Phaser.Scene {
     constructor(){
         super('gameScene')
+        this.cam_view = 'player';
     }
 
     preload() {
@@ -16,6 +18,7 @@ class GameScene extends Phaser.Scene {
         Enemy.preload(this)
         PlatformLayer.preload(this)
         this.load.image('background', 'assets/background/sky.png');
+        this.load.image('base', 'assets/base/base.png');
         this.load.image('resource_one', 'assets/resources/1 icons/Icon14_01.png')
         this.load.image('resource_two', 'assets/resources/1 icons/Icon14_03.png')
         this.load.image('resource_three', 'assets/resources/1 icons/Icon14_05.png')
@@ -30,6 +33,8 @@ class GameScene extends Phaser.Scene {
 
         this.scene.launch('HUDScene');
 
+        this.basePlat = new BasePlat(this);
+
         const bg = this.add.image(0, 0, 'background');
 
         // Set the origin to the top-left corner
@@ -41,23 +46,31 @@ class GameScene extends Phaser.Scene {
 
         this.level = new Level(this);
         this.player = new Player(this);
-
-        this.cameras.main.startFollow(this.player.sprite, false, 0, 1);
-
-         // Add some blocks
         this.resBlocks = new ResBlocks(this);
-        this.resBlocks.addLayer(10,'top_block');
         this.platformLayer = new PlatformLayer(this);
 
-        let base = 450
-        let i = 0;
-        for (i = 0; i < 10; i++) {
-            this.platformLayer.addPlatform(0, base - (i * 110));
-            this.resBlocks.addLayer(11 + i,'middle_block');
-        }
-        this.platformLayer.addBasePlat(base - (i * 110))
 
-        this.resBlocks.addLayer(10 + i,'bottom_block')
+         // Add some blocks
+
+
+        var base_plat_pos = this.create_randomized_fields();
+
+        this.basePlat.addBasePlat(base_plat_pos);
+
+        // Start following the player vertically
+        this.cameras.main.startFollow(this.player.sprite, false, 0, 1);
+
+        // Lock the camera horizontally at the center of the screen
+        this.cameras.main.scrollX = 400 - this.cameras.main.width / 2;
+    
+        // Lock the camera horizontally to the center of the screen
+        this.cameras.main.on('cameraupdate', () => {
+            this.cameras.main.scrollX = centerX - this.cameras.main.width / 2;
+        });
+
+        this.base = this.physics.add.sprite(400, (base_plat_pos - 330), 'base').setScale(1.5);
+        this.base.body.setImmovable(true);
+        this.base.body.allowGravity = false;
 
         this.player.create();     
         //this.enemy.create();
@@ -66,8 +79,84 @@ class GameScene extends Phaser.Scene {
         // Colliders
         this.physics.add.collider(this.player.sprite, this.resBlocks);
         this.physics.add.collider(this.player.sprite, this.platformLayer);
+        this.physics.add.collider(this.player.sprite, this.basePlat, this.cam_followBase, null, this);
 
-        this.physics.world.createDebugGraphic()
+        this.physics.world.createDebugGraphic();
+    }
+
+    create_randomized_fields() {
+        this.resBlocks.addLayer(10,'top_block');
+        
+
+        let start = 450
+        let i = 0;
+        for (i = 0; i < 10; i++) {
+            this.platformLayer.addPlatform(0, start - (i * 110));
+            this.resBlocks.addLayer(11 + i,'middle_block');
+        }
+        this.resBlocks.addLayer(10 + i,'bottom_block')
+
+
+        return start - (i * 110);
+    }
+
+    cam_followBase() {
+        if (this.cam_view == 'player')
+        {
+            const camera = this.cameras.main;
+
+        // Stop following any target for manual control
+        this.cam_view = 'base';
+        camera.stopFollow();
+
+        this.tweens.add({
+        targets: camera,
+        scrollY: this.base.y - this.scale.height / 2,
+        duration: 1000, // Duration of the transition in milliseconds
+        ease: 'Sine.easeInOut', // Easing function for smooth motion
+
+        onComplete: () => {
+            this.platformLayer.deleteAll();
+            this.resBlocks.deleteAll();
+            this.create_randomized_fields();
+            this.time.delayedCall(2000, () => { //TEMPORARY to get back from transition
+                this.cam_followPlayer();
+            });
+        },
+    });
+        }
+        
+
+    }
+    
+    // Define the cam_followPlayer function
+    cam_followPlayer() {
+        const camera = this.cameras.main;
+
+        
+        // Stop following any target for manual control
+    
+        // Smoothly pan the camera to the base's position
+        this.tweens.add({
+            targets: camera,
+            scrollY: this.player.sprite.y - this.scale.height /2,
+            duration: 2000, // Duration of the transition in milliseconds
+            ease: 'Sine.easeInOut', // Easing function for smooth motion
+
+            onComplete: () => {
+                this.cameras.main.startFollow(this.player.sprite, false, 0, 1);
+                this.cameras.main.scrollX = 400 - this.cameras.main.width / 2;
+                var base_plat_pos = this.basePlat.y;
+                this.basePlat.deleteAll();
+                
+                this.time.delayedCall(2000, () => { 
+                    this.basePlat.addBasePlat(base_plat_pos);
+                    this.cam_view = "player";
+            
+                 });
+
+            },
+        }); 
     }
     
     update() {
@@ -123,8 +212,6 @@ class GameScene extends Phaser.Scene {
         if (icon) icon.destroy();
     }
 
-
-    
     }  
 
     updateRegistry() {

@@ -12,31 +12,6 @@ export class PlatformLayer extends Phaser.Physics.Arcade.StaticGroup {
     scene.load.image('platform_block', 'assets/tilesets/abandoned/1 Tiles/Tile_46.png');
   }
 
-  addBasePlat(y) {
-    const blockWidth = this.scene.scale.width / 30; // Divide screen width into blocks
-    const numBlocks = Math.ceil(this.scene.scale.width / blockWidth); // Number of blocks needed
-
-    for (let i = 0; i < numBlocks; i++) {
-        const blockX = i * blockWidth + blockWidth / 2; // Center each block horizontally
-
-        // Create a block
-        const block = this.create(blockX, y, "platform_block");
-
-        // Scale the block to match the desired width
-        const scaleFactor = blockWidth / block.width;
-        block.setScale(scaleFactor);
-
-        // Update the physics body to match the scaled size
-        block.body.updateFromGameObject();
-
-        // Make the block immovable
-
-        block.body.checkCollision.down = false;
-        block.body.checkCollision.left = false;
-        block.body.checkCollision.right = false;
-    }
-}
-
   addPlatform(x, y) {
       const numBlocks = 5; // Number of blocks in the platform
       const blockWidth = this.scene.scale.width / 30; // Smaller blocks for platform (1/30th screen width)
@@ -72,7 +47,9 @@ export class PlatformLayer extends Phaser.Physics.Arcade.StaticGroup {
             ease: 'Linear', // Smooth linear motion
             onUpdate: () => {
               // Update the physics body position to follow the tween
-              block.body.updateFromGameObject();
+              if (block.body)
+                {block.body.updateFromGameObject();}
+              
           },
         });
     
@@ -80,4 +57,26 @@ export class PlatformLayer extends Phaser.Physics.Arcade.StaticGroup {
 
       
   }
+
+  deleteAll() {
+    this.getChildren().forEach((child) => {
+        if (child) {
+            // Stop any tweens associated with the child
+            this.scene.tweens.killTweensOf(child);
+
+            // Remove and destroy physics body
+            if (child.body) {
+                this.scene.physics.world.remove(child.body);
+                child.body.destroy();
+            }
+
+            // Destroy the game object
+            child.destroy();
+        }
+    });
+
+    // Clear the group itself
+    this.clear(true, true); // Ensure group is cleared and children are removed
+}
+
 }
