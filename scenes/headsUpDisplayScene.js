@@ -5,7 +5,7 @@ class HUDScene extends Phaser.Scene {
 
     preload(){
         //Assets for the health bar
-        this.load.image('heart',"../assets/skill-icon/1 Icons/10/Skillicon10_16.png")
+        this.load.image('heart',"./assets/skill-icon/1 Icons/10/Skillicon10_16.png")
         this.registry.set('health', 100);
         this.registry.set('resource_one', 0);
         this.registry.set('resource_two', 0);
