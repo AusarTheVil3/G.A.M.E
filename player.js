@@ -1,4 +1,3 @@
-var centerX = 700 / 2, centerY = 800 / 2;
 var scale = 2;
 export class Player {
 
@@ -15,7 +14,7 @@ export class Player {
     create(){
         console.log('Player creation');
         
-        const scaleFactor = 0.7; // Example: scale down the collision box to 80%
+        const scaleFactor = 0.7; // Example: scale down the collision box to 70%
         this.sprite.setScale(scale); // Scale the visual sprite
         this.sprite.body.setSize(
             this.sprite.width * scaleFactor - 13,
@@ -65,7 +64,7 @@ export class Player {
     constructor(scene) {
         
         this.scene = scene;
-        this.sprite = this.scene.physics.add.sprite(centerX, centerY, 'player_idle').setScale(1.5);
+        this.sprite = this.scene.physics.add.sprite(400, this.scene.base_plat_pos - 150, 'player_idle').setScale(1.5);
         this.sprite.setCollideWorldBounds(false); //allows player to go up infinitely
         this.sprite.setBounce(0);
 
