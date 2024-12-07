@@ -9,84 +9,101 @@ import { BasePlat } from '../basePlat.js';
 class GameScene extends Phaser.Scene {
     constructor(){
         super('gameScene')
-        this.cam_view = 'player';
     }
 
     preload() {
-        Player.preload(this)
-        ResBlocks.preload(this)
-        Enemy.preload(this)
-        PlatformLayer.preload(this)
+        //call static preload methods
+        Player.preload(this);
+        ResBlocks.preload(this);
+        Enemy.preload(this);
+        PlatformLayer.preload(this);
         this.load.image('background', 'assets/background/sky.png');
         this.load.image('base', 'assets/base/base.png');
-        this.load.image('resource_one', 'assets/resources/1 icons/Icon14_01.png')
-        this.load.image('resource_two', 'assets/resources/1 icons/Icon14_03.png')
-        this.load.image('resource_three', 'assets/resources/1 icons/Icon14_05.png')
-        this.load.image('resource_four', 'assets/resources/1 icons/Icon14_24.png')
-        this.load.image('puzzle', 'assets/resources/1 icons/Icon14_22.png')
+        this.load.image('resource_one', 'assets/resources/1 icons/Icon14_01.png');
+        this.load.image('resource_two', 'assets/resources/1 icons/Icon14_03.png');
+        this.load.image('resource_three', 'assets/resources/1 icons/Icon14_05.png');
+        this.load.image('resource_four', 'assets/resources/1 icons/Icon14_24.png');
+        this.load.image('puzzle', 'assets/resources/1 icons/Icon14_22.png');
+
     }
     
     create() {
+        //key stuff
         this.keyboardesc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         this.keyboardp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
         this.keyboarde = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
 
-        this.scene.launch('HUDScene');
+        //useful properties
+        this.cam_view = 'player';
+        this.counting_down = true;
+        this.display_timer = true;
+        this.timer = 30; //set one higher than you want at start
 
-        this.basePlat = new BasePlat(this);
-
+        //background stuff
         const bg = this.add.image(0, 0, 'background');
-
-        // Set the origin to the top-left corner
         bg.setOrigin(0, 0);
-
-        // Stretch the image to fill the screen
         bg.setDisplaySize(this.scale.width, this.scale.height);
         bg.setScrollFactor(0)
 
+        //objects from other classes ORDER MATTERS
+        this.basePlat = new BasePlat(this);
         this.level = new Level(this);
-        this.player = new Player(this);
         this.resBlocks = new ResBlocks(this);
         this.platformLayer = new PlatformLayer(this);
+        this.player = new Player(this);
+        this.scene.launch('HUDScene');
 
-
-         // Add some blocks
-
-
-        var base_plat_pos = this.create_randomized_fields();
-
-        this.basePlat.addBasePlat(base_plat_pos);
+        
 
         // Start following the player vertically
         this.cameras.main.startFollow(this.player.sprite, false, 0, 1);
-
-        // Lock the camera horizontally at the center of the screen
         this.cameras.main.scrollX = 400 - this.cameras.main.width / 2;
-    
-        // Lock the camera horizontally to the center of the screen
-        this.cameras.main.on('cameraupdate', () => {
+        this.cameras.main.on('cameraupdate', () => { //locks camera vertically
             this.cameras.main.scrollX = centerX - this.cameras.main.width / 2;
         });
 
+         // Adds base plat AND randomized blocks + plats
+        var base_plat_pos = this.create_randomized_fields();
+        this.basePlat.addBasePlat(base_plat_pos);
+
+        //base
         this.base = this.physics.add.sprite(400, (base_plat_pos - 330), 'base').setScale(1.5);
         this.base.body.setImmovable(true);
         this.base.body.allowGravity = false;
 
+        //create player
         this.player.create();     
-        //this.enemy.create();
-
 
         // Colliders
         this.physics.add.collider(this.player.sprite, this.resBlocks);
         this.physics.add.collider(this.player.sprite, this.platformLayer);
         this.physics.add.collider(this.player.sprite, this.basePlat, this.cam_followBase, null, this);
 
+        //timer event, tics down (tics timer OR health)
+        this.time.addEvent({
+            delay: 1000,
+            callback: () => {
+                if (this.timer > 0 && this.counting_down) {
+                    this.timer -= 1;
+                } 
+                else if (this.counting_down){
+                        this.player.resources_Map['health'] -= 5;
+                        if (this.player.resources_Map['health'] < 0){
+                            this.player.resources_Map['health'] = 0;
+                        }
+                    }
+                    this.updateRegistry();
+            },
+            loop: true
+        });
+
+        //adds the physics overlay for easy use
         this.physics.world.createDebugGraphic();
     }
 
+    //this function is for plats and resblocks (kinda bad function ignore for now -Blake)
     create_randomized_fields() {
         this.resBlocks.addLayer(10,'top_block');
-        
 
         let start = 450
         let i = 0;
@@ -100,13 +117,14 @@ class GameScene extends Phaser.Scene {
         return start - (i * 110);
     }
 
+    //switches to following base on collision with base plat
     cam_followBase() {
         if (this.cam_view == 'player')
         {
             const camera = this.cameras.main;
 
-        // Stop following any target for manual control
         this.cam_view = 'base';
+        this.counting_down = false;
         camera.stopFollow();
 
         this.tweens.add({
@@ -116,6 +134,8 @@ class GameScene extends Phaser.Scene {
         ease: 'Sine.easeInOut', // Easing function for smooth motion
 
         onComplete: () => {
+            this.display_timer = false;
+            this.updateRegistry();
             this.platformLayer.deleteAll();
             this.resBlocks.deleteAll();
             this.create_randomized_fields();
@@ -129,14 +149,14 @@ class GameScene extends Phaser.Scene {
 
     }
     
-    // Define the cam_followPlayer function
+    //switches to following player after enemies defeated (no enemies yet :( )
     cam_followPlayer() {
         const camera = this.cameras.main;
 
-        
-        // Stop following any target for manual control
-    
-        // Smoothly pan the camera to the base's position
+        this.display_timer = true;
+        this.timer = 30;
+        this.updateRegistry();
+
         this.tweens.add({
             targets: camera,
             scrollY: this.player.sprite.y - this.scale.height /2,
@@ -148,8 +168,9 @@ class GameScene extends Phaser.Scene {
                 this.cameras.main.scrollX = 400 - this.cameras.main.width / 2;
                 var base_plat_pos = this.basePlat.y;
                 this.basePlat.deleteAll();
+                this.counting_down = true;
                 
-                this.time.delayedCall(2000, () => { 
+                this.time.delayedCall(10000, () => { 
                     this.basePlat.addBasePlat(base_plat_pos);
                     this.cam_view = "player";
             
@@ -159,6 +180,7 @@ class GameScene extends Phaser.Scene {
         }); 
     }
     
+    //updates stuff
     update() {
         
         if (Phaser.Input.Keyboard.JustDown(this.keyboardesc)) {
@@ -213,13 +235,17 @@ class GameScene extends Phaser.Scene {
     }
 
     }  
+    
 
+    //call any time this.timer or player resources changed- communicates with HUD
     updateRegistry() {
         this.registry.set('health', this.player.resources_Map["health"]);
         this.registry.set('resource_one', this.player.resources_Map["resource_one"]);
         this.registry.set('resource_two', this.player.resources_Map["resource_two"]);
         this.registry.set('resource_three', this.player.resources_Map["resource_three"]);
         this.registry.set('resource_four', this.player.resources_Map["resource_four"]);
+        this.registry.set('timer', this.timer); 
+        this.registry.set('display_timer', this.display_timer); 
     }
 
     
