@@ -8,7 +8,7 @@ export class Player {
         scene.load.spritesheet('player_walk', 'assets/spritesheets/hero_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
         scene.load.spritesheet('player_jump', 'assets/spritesheets/hero_jumpsheet.png', { frameWidth: 44, frameHeight: 48 });
         scene.load.spritesheet('player_basicattack', 'assets/spritesheets/hero_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
-        scene.load.image('dc', 'assets/resources/1 Icons/Icon14_35.png');
+        scene.load.image('dc', 'assets/guns/5 Bullets/4_1.png');
 
     }   
     
@@ -145,7 +145,7 @@ export class Player {
 
     fireProjectile() {
         // Create the projectile at the player's position
-        const projectile = this.scene.physics.add.sprite(this.sprite.x, this.sprite.y, 'dc').setScale(1);
+        const projectile = this.scene.physics.add.sprite(this.sprite.x, this.sprite.y, 'dc').setScale(2);
     
         // Disable gravity entirely
         projectile.body.allowGravity = false;
