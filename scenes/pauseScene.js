@@ -6,14 +6,14 @@ class PauseScene extends Phaser.Scene {
 
     preload(){
         
-        this.load.image('pauseScreen','./assets/pause.png');
-        this.load.image('backToGameButton','./assets/backToGame.png');
+        this.load.image('pauseScreen','./assets/pause.jpg');
+        this.load.image('backToGameButton','./assets/resume.png');
         this.keyboardp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
     }
 
     create(){
         let pauseScreen = this.add.image(400,400,'pauseScreen');
-        let backtoGameButton = this.add.image(400,400,'backToGameButton');
+        let backtoGameButton = this.add.image(290,340,'backToGameButton');
         backtoGameButton.setInteractive();
 
         backtoGameButton.on('pointerdown', ()=>{
