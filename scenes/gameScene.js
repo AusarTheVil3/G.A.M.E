@@ -149,7 +149,7 @@ class GameScene extends Phaser.Scene {
                 var base_plat_pos = this.basePlat.y;
                 this.basePlat.deleteAll();
                 
-                this.time.delayedCall(2000, () => { 
+                this.time.delayedCall(10000, () => { 
                     this.basePlat.addBasePlat(base_plat_pos);
                     this.cam_view = "player";
             
