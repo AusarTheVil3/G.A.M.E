@@ -103,13 +103,13 @@ class GameScene extends Phaser.Scene {
 
     //this function is for plats and resblocks (kinda bad function ignore for now -Blake)
     create_randomized_fields() {
-        this.resBlocks.addLayer(10,'top_block');
+        this.resBlocks.addLayer(11,'top_block');
 
-        let start = 450
+        let start = 458;
         let i = 0;
         for (i = 0; i < 10; i++) {
             this.platformLayer.addPlatform(0, start - (i * 110));
-            this.resBlocks.addLayer(11 + i,'middle_block');
+            this.resBlocks.addLayer(12 + i,'middle_block');
         }
         this.resBlocks.addLayer(10 + i,'bottom_block')
 

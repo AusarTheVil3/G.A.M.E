@@ -18,7 +18,7 @@ export class Player {
         const scaleFactor = 0.7; // Example: scale down the collision box to 80%
         this.sprite.setScale(scale); // Scale the visual sprite
         this.sprite.body.setSize(
-            this.sprite.width * scaleFactor - 10,
+            this.sprite.width * scaleFactor - 11,
             this.sprite.height * scaleFactor
         );
 
