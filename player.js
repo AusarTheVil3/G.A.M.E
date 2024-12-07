@@ -1,5 +1,3 @@
-var centerX = 700 / 2, centerY = 800 / 2;
-var scale = 2;
 export class Player {
 
     static preload(scene){
@@ -8,10 +6,11 @@ export class Player {
         scene.load.spritesheet('player_walk', 'assets/spritesheets/hero_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
         scene.load.spritesheet('player_jump', 'assets/spritesheets/hero_jumpsheet.png', { frameWidth: 44, frameHeight: 48 });
         scene.load.spritesheet('player_basicattack', 'assets/spritesheets/hero_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
-        
 
-    }   
-    
+        // Load the laser image as the projectile
+        scene.load.image('laser', '/mnt/data/hd-blue-laser-beam-png-701751694624683kjrzwwrtcz.png');
+    }
+
     create(){
         console.log('Player creation');
         
@@ -21,7 +20,6 @@ export class Player {
             this.sprite.width * scaleFactor - 13,
             this.sprite.height * scaleFactor
         );
-
 
         // Use the sprite initialized in the constructor
         this.sprite.setTexture('player_idle');
@@ -47,7 +45,6 @@ export class Player {
             frameRate: 8,
             repeat: 0  // Play once per jump
         });
-        
 
         // Start with the idle animation
         this.sprite.anims.play('idle');
@@ -77,11 +74,12 @@ export class Player {
             space: Phaser.Input.Keyboard.KeyCodes.SPACE,
             basic_attack: Phaser.Input.Keyboard.KeyCodes.J
         });
+
+        // Flag to check when the basic attack key is pressed
+        this.isAttacking = false;
     }
 
     update() {
-
-        
         // Movement controls
         if (this.cursors.left.isDown) {
             if (!this.sprite.body.touching.left){ //fixes wall sticking
@@ -119,16 +117,40 @@ export class Player {
         if (!this.cursors.space.isDown) {
             this.jumpKeyReleased = true;
         }
-        else {
-            this.jumpKeyReleased = false;
+
+        // Launch projectile when the basic attack key is pressed
+        if (this.cursors.basic_attack.isDown && !this.isAttacking) {
+            this.isAttacking = true;  // Prevent multiple attacks at once
+            this.fireProjectile();
         }
-         // Constrain the player to the screen width
-         if (this.sprite.x < 0) {
+        if (!this.cursors.basic_attack.isDown) {
+            this.isAttacking = false;
+        }
+
+        // Constrain the player to the screen width
+        if (this.sprite.x < 0) {
             this.sprite.x = 0; // Prevent moving past the left edge
         } else if (this.sprite.x > this.scene.scale.width) {
             this.sprite.x = this.scene.scale.width; // Prevent moving past the right edge
         }
+    }
 
-       
+    fireProjectile() {
+        const projectile = this.scene.physics.add.sprite(this.sprite.x, this.sprite.y, 'laser').setScale(0.5);
+        
+        // Set the velocity based on the direction the player is facing
+        const velocityX = this.sprite.flipX ? -500 : 500; // Negative for left, positive for right
+        projectile.setVelocityX(velocityX); // Set projectile velocity along the X axis
+        projectile.setCollideWorldBounds(true); // Make the projectile bounce off the world bounds
+
+        // Add collision with enemies or other objects
+        this.scene.physics.add.collider(projectile, this.scene.enemyGroup, (projectile, enemy) => {
+            // Deal damage to enemy
+            enemy.takeDamage(10);  // Example: deal 10 damage to enemy
+            projectile.destroy();  // Destroy the projectile after hitting the enemy
+        });
+
+        // Optionally, you can set a timer to destroy the projectile after some time or when it goes off-screen
+        this.scene.time.delayedCall(2000, () => projectile.destroy());  // Destroy after 2 seconds
     }
 }
