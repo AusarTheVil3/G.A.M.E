@@ -16,7 +16,6 @@ export class ResBlocks extends Phaser.Physics.Arcade.StaticGroup {
     
   }   
 
-
   addLayer(layerIndex, texture) {
       const blockWidth = this.scene.scale.width / 16;
       const blockHeight = blockWidth; // Assuming square blocks
@@ -37,8 +36,7 @@ export class ResBlocks extends Phaser.Physics.Arcade.StaticGroup {
               (block.width - block.body.width) / 2, // Center horizontally
               (block.height - block.body.height) / 2 // Center vertically
           );
-      
-
+          
           const resources = [
             { key: 'resource_one', weight: 10 },
             { key: 'resource_two', weight: 10 }, 

@@ -18,7 +18,7 @@ export class Player {
         const scaleFactor = 0.7; // Example: scale down the collision box to 80%
         this.sprite.setScale(scale); // Scale the visual sprite
         this.sprite.body.setSize(
-            this.sprite.width * scaleFactor - 11,
+            this.sprite.width * scaleFactor - 13,
             this.sprite.height * scaleFactor
         );
 
@@ -84,14 +84,18 @@ export class Player {
         
         // Movement controls
         if (this.cursors.left.isDown) {
-            this.sprite.setVelocityX(-160);
+            if (!this.sprite.body.touching.left){ //fixes wall sticking
+                this.sprite.setVelocityX(-160);
+            }
             this.sprite.setFlipX(true);  // Flip sprite for left movement
             if (this.sprite.anims.currentAnim.key !== 'walk') {
                 this.sprite.anims.play('walk');
             }
         } else if (this.cursors.right.isDown) {
             
-            this.sprite.setVelocityX(160);
+            if (!this.sprite.body.touching.right){ //fixes wall sticking
+                this.sprite.setVelocityX(160);
+            }
             this.sprite.setFlipX(false);  // Flip sprite for left movement
             if (this.sprite.anims.currentAnim.key !== 'walk') {
                 this.sprite.anims.play('walk');
