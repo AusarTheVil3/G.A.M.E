@@ -111,7 +111,7 @@ class GameScene extends Phaser.Scene {
             this.platformLayer.addPlatform(0, start - (i * 110));
             this.resBlocks.addLayer(12 + i,'middle_block');
         }
-        this.resBlocks.addLayer(10 + i,'bottom_block')
+        this.resBlocks.addLayer(12 + i,'bottom_block')
 
 
         return start - (i * 110);
