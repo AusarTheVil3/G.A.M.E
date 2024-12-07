@@ -146,7 +146,6 @@ export class Player {
     fireProjectile() {
         // Create the projectile at the player's position
         const projectile = this.scene.physics.add.sprite(this.sprite.x, this.sprite.y, 'dc').setScale(1);
-        console.log('Projectile created at:', projectile.x, projectile.y);
     
         // Disable gravity entirely
         projectile.body.allowGravity = false;
