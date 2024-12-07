@@ -1,3 +1,5 @@
+var scale = 2;
+
 export class Player {
 
     static preload(scene){
@@ -14,9 +16,10 @@ export class Player {
 
     create() {
         console.log('Player creation');
-        
+
         const scaleFactor = 0.7; // Example: scale down the collision box to 80%
         this.sprite.setScale(1.5); // Scale the visual sprite to 1.5 (fixing the 'scale' variable issue)
+      
         this.sprite.body.setSize(
             this.sprite.width * scaleFactor - 13,
             this.sprite.height * scaleFactor
@@ -61,9 +64,22 @@ export class Player {
         };
     }
 
-constructor(scene) {
-    this.scene = scene;
+    constructor(scene) {
+        
+        this.scene = scene;
+        this.sprite = this.scene.physics.add.sprite(400, this.scene.base_plat_pos - 150, 'player_idle').setScale(1.5);
+        this.sprite.setCollideWorldBounds(false); //allows player to go up infinitely
+        this.sprite.setBounce(0);
 
+        // Input controls (WASD)
+        this.cursors = this.scene.input.keyboard.addKeys({
+            up: Phaser.Input.Keyboard.KeyCodes.W,
+            left: Phaser.Input.Keyboard.KeyCodes.A,
+            right: Phaser.Input.Keyboard.KeyCodes.D,
+            space: Phaser.Input.Keyboard.KeyCodes.SPACE,
+            basic_attack: Phaser.Input.Keyboard.KeyCodes.J
+        });
+    }
     // Set the center of the screen for positioning
     const centerX = this.scene.scale.width / 2;
     const centerY = this.scene.scale.height / 2;

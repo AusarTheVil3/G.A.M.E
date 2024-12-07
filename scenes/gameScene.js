@@ -1,9 +1,10 @@
 import { Player } from '../player.js';
 import { Level } from '../level.js';
 import {ResBlocks} from '../resblocks.js';
-import { Enemy } from '../enemy.js';
+import { Enemy, Tank, FlyGuy } from '../enemy.js';
 import { PlatformLayer } from '../platformLayer.js';
 import { BasePlat } from '../basePlat.js';
+import { Round } from '../round.js';
 
 
 class GameScene extends Phaser.Scene {
@@ -15,8 +16,9 @@ class GameScene extends Phaser.Scene {
         //call static preload methods
         Player.preload(this);
         ResBlocks.preload(this);
-        Enemy.preload(this);
         PlatformLayer.preload(this);
+        Enemy.preload(this);
+        Tank.preload(this);
         this.load.image('background', 'assets/background/sky.png');
         this.load.image('base', 'assets/base/base.png');
         this.load.image('resource_one', 'assets/resources/1 icons/Icon14_01.png');
@@ -28,6 +30,9 @@ class GameScene extends Phaser.Scene {
     }
     
     create() {
+        //const
+        this.GATHER_TIME = 60;
+
         //key stuff
         this.keyboardesc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         this.keyboardp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
@@ -36,8 +41,9 @@ class GameScene extends Phaser.Scene {
         //useful properties
         this.cam_view = 'player';
         this.counting_down = true;
-        this.display_timer = true;
-        this.timer = 30; //set one higher than you want at start
+        this.display_timer = false;
+        this.timer = 30;
+        this.lock = true; //wait till enemies dead
 
         //background stuff
         const bg = this.add.image(0, 0, 'background');
@@ -45,31 +51,32 @@ class GameScene extends Phaser.Scene {
         bg.setDisplaySize(this.scale.width, this.scale.height);
         bg.setScrollFactor(0)
 
+
         //objects from other classes ORDER MATTERS
         this.basePlat = new BasePlat(this);
         this.level = new Level(this);
         this.resBlocks = new ResBlocks(this);
         this.platformLayer = new PlatformLayer(this);
-        this.player = new Player(this);
+        this.round = new Round(this);
+        this.roundNumber = 0;
         this.scene.launch('HUDScene');
 
-        
-
-        // Start following the player vertically
-        this.cameras.main.startFollow(this.player.sprite, false, 0, 1);
-        this.cameras.main.scrollX = 400 - this.cameras.main.width / 2;
-        this.cameras.main.on('cameraupdate', () => { //locks camera vertically
-            this.cameras.main.scrollX = centerX - this.cameras.main.width / 2;
-        });
-
-         // Adds base plat AND randomized blocks + plats
+        // Adds base plat AND randomized blocks + plats
         var base_plat_pos = this.create_randomized_fields();
         this.basePlat.addBasePlat(base_plat_pos);
+        this.base_plat_pos = base_plat_pos;
+
+        // Adds player
+        this.player = new Player(this);
+        this.player.sprite.setDepth(10);
 
         //base
         this.base = this.physics.add.sprite(400, (base_plat_pos - 330), 'base').setScale(1.5);
         this.base.body.setImmovable(true);
         this.base.body.allowGravity = false;
+
+        // Start following the player vertically
+        this.cameras.main.startFollow(this.base, false, 0, 1);
 
         //create player
         this.player.create();     
@@ -78,6 +85,10 @@ class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.player.sprite, this.resBlocks);
         this.physics.add.collider(this.player.sprite, this.platformLayer);
         this.physics.add.collider(this.player.sprite, this.basePlat, this.cam_followBase, null, this);
+        this.physics.add.collider(this.player.sprite, this.resBlocks);
+        this.physics.add.collider(this.round.enemyGroup, this.basePlat);
+        this.physics.add.collider(this.round.enemyGroup, this.resBlocks);
+
 
         //timer event, tics down (tics timer OR health)
         this.time.addEvent({
@@ -97,8 +108,17 @@ class GameScene extends Phaser.Scene {
             loop: true
         });
 
-        //adds the physics overlay for easy use
+        //adds the physics overlay - testing
         this.physics.world.createDebugGraphic();
+
+        // Use k to kill all enemies - testing
+        this.killKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
+        this.killKey.on('down', () => {
+            console.log('K key pressed: Killing all enemies');
+            this.round.killAllEnemies();
+        });
+
+        this.cam_followBase();
     }
 
     //this function is for plats and resblocks (kinda bad function ignore for now -Blake)
@@ -139,25 +159,26 @@ class GameScene extends Phaser.Scene {
             this.platformLayer.deleteAll();
             this.resBlocks.deleteAll();
             this.create_randomized_fields();
-            this.time.delayedCall(2000, () => { //TEMPORARY to get back from transition
-                this.cam_followPlayer();
-            });
+            this.round.start();
+            this.lock = false;
         },
     });
-        }
+    }
         
-
+    
     }
     
     //switches to following player after enemies defeated (no enemies yet :( )
     cam_followPlayer() {
         const camera = this.cameras.main;
+        this.round.roundNumber += 1;
 
         this.display_timer = true;
-        this.timer = 30;
+        this.timer = this.GATHER_TIME;
         this.updateRegistry();
 
         this.tweens.add({
+            delay: 1000,
             targets: camera,
             scrollY: this.player.sprite.y - this.scale.height /2,
             duration: 2000, // Duration of the transition in milliseconds
@@ -198,6 +219,10 @@ class GameScene extends Phaser.Scene {
             this.mineBlock();
         }
          
+        if (!this.lock && this.round && this.round.isComplete()){
+            this.lock = true;
+            this.cam_followPlayer();
+        }
         
         
         this.player.update();
