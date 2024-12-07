@@ -144,7 +144,8 @@ fireProjectile() {
     const projectile = this.scene.physics.add.sprite(this.sprite.x, this.sprite.y, 'dc').setScale(1);
 
     // Disable gravity entirely
-    projectile.body.setGravity(0, 0); // No gravity at all, no vertical movement
+    projectile.body.allowGravity = false;
+    // No gravity at all, no vertical movement
 
     // Explicitly set the horizontal velocity to ensure it goes in a straight line (no vertical movement)
     const velocityX = this.sprite.flipX ? -500 : 500; // Left (-500) or Right (500)
