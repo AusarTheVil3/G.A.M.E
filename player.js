@@ -7,8 +7,8 @@ export class Player {
         scene.load.spritesheet('player_jump', 'assets/spritesheets/hero_jumpsheet.png', { frameWidth: 44, frameHeight: 48 });
         scene.load.spritesheet('player_basicattack', 'assets/spritesheets/hero_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
 
-        // Load the laser image as the projectile
-        scene.load.image('laser', '/mnt/data/hd-blue-laser-beam-png-701751694624683kjrzwwrtcz.png');
+        // Load the dc laser image as the projectile
+        scene.load.image('dc', '/mnt/data/hd-blue-laser-beam-png-701751694624683kjrzwwrtcz.png');  // Update path if needed
     }
 
     create(){
@@ -136,7 +136,7 @@ export class Player {
     }
 
     fireProjectile() {
-        const projectile = this.scene.physics.add.sprite(this.sprite.x, this.sprite.y, 'laser').setScale(0.5);
+        const projectile = this.scene.physics.add.sprite(this.sprite.x, this.sprite.y, 'dc').setScale(0.5);
         
         // Set the velocity based on the direction the player is facing
         const velocityX = this.sprite.flipX ? -500 : 500; // Negative for left, positive for right
