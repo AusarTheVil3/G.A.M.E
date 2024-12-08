@@ -8,7 +8,7 @@ export class Player {
         scene.load.spritesheet('player_walk', 'assets/spritesheets/hero_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
         scene.load.spritesheet('player_jump', 'assets/spritesheets/hero_jumpsheet.png', { frameWidth: 44, frameHeight: 48 });
         scene.load.spritesheet('player_basicattack', 'assets/spritesheets/hero_walkingsheet.png', { frameWidth: 44, frameHeight: 48 });
-        scene.load.image('dc', 'assets/guns/5 Bullets/4_1.png');
+        scene.load.image('dc', 'assets/guns/Bullets/4_1.png');
 
     }   
     
