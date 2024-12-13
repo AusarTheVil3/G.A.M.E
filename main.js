@@ -5,6 +5,8 @@ import PauseScene from './scenes/pauseScene.js';
 import LoadingScene from './scenes/loadingScene.js';
 import HUDScene from './scenes/headsUpDisplayScene.js';
 import GameOverScene from './scenes/gameOverScene.js';
+import PuzzleScene from './scenes/puzzleScene.js';
+
 
 const config = {
     type: Phaser.AUTO,
@@ -17,7 +19,7 @@ const config = {
             debug: false
         }
     },
-    scene: [ TitleScene , GameScene, PauseScene, LoadingScene, HUDScene, GameOverScene ]    
+    scene: [ TitleScene , GameScene, PauseScene, LoadingScene, HUDScene, GameOverScene, PuzzleScene]    
 };
 
 
