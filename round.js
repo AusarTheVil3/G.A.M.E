@@ -81,13 +81,13 @@ export class Round {
 
     generateEnemyQueue(roundNumber) {
         const queue = [];
-        const baseEnemies = 1;
+        const baseEnemies = 2;
         const scaleFactor = 1.5;
 
         const totalEnemies = Math.floor(baseEnemies + roundNumber * scaleFactor);
 
         for (let i = 0; i < totalEnemies; i++) {
-            const enemyType = i % 2 === 0 ? 'flyguy' : 'tank';
+            const enemyType = 'flyguy';
             queue.push(enemyType);
         }
 
