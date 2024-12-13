@@ -6,12 +6,13 @@ class TitleScene extends Phaser.Scene {
     preload(){
         this.cameras.main.setBackgroundColor(0xFFFFFF);
         this.load.image('Background','./assets/title.jpg');
-        this.load.image('StartButton','./assets/start.jpg')
+        this.load.image('StartButton','./assets/start.jpg');
     }
 
     create(){
         let Background = this.add.image(400,400,'Background');
         let startButton = this.add.image(400,775,'StartButton');
+
         startButton.setInteractive();
         startButton.on('pointerdown', ()=>{
             startButton.setScale(1.25);
