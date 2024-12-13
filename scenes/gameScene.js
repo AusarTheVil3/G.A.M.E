@@ -232,6 +232,17 @@ class GameScene extends Phaser.Scene {
             this.cam_followPlayer();
         }
         
+        /*if(this.player.resources_Map(puzzle) == 1)
+        {
+            this.player.resources_Map(puzzle).set(0)
+            this.updateRegistry()
+            this.scene.switch('puzzleScene');
+            this.updateRegistry()
+            if(this.registry.getData('puzzle') == 1)
+            {
+                this.player.allowGravity == false
+            }
+        }*/
         
         this.player.update();
         //this.enemy.update();
