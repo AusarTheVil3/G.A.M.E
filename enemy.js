@@ -32,13 +32,15 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
         scene.load.spritesheet('flyguy_idle', 'assets/sprites/enemies/flyguy/Idle.png', { frameWidth : 96, frameHeight: 96 });
         scene.load.spritesheet('flyguy_move', 'assets/sprites/enemies/flyguy/Fly.png', { frameWidth : 96, frameHeight: 96 });
         scene.load.spritesheet('flyguy_attack', 'assets/sprites/enemies/flyguy/Attack2.png', { frameWidth : 96, frameHeight: 96 });
+
+        scene.load.image('flyguy_bullet','./assets/sprites/enemies/flyguy/Bullet.png');
     }
 
     
 
     // Take damage
     takeDamage(amount) {
-        console.log(`${this.texture.key} took ${amount} damage.`);
+        //console.log(`${this.texture.key} took ${amount} damage.`);
         this.health -= amount;
         this.setTint(0xff0000); // Flash red to indicate damage
         this.scene.time.delayedCall(200, () => this.clearTint());
@@ -121,7 +123,7 @@ export class FlyGuy extends Enemy {
     }
 
     shootProjectile(player) {
-        const projectile = this.scene.physics.add.sprite(this.x, this.y, 'flyguy_bullet').setScale(0.5);
+        const projectile = this.scene.physics.add.sprite(this.x, this.y, 'flyguy_bullet').setScale(3);
 
         // Disable gravity for the projectile
         projectile.body.allowGravity = false;
