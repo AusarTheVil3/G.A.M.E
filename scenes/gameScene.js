@@ -5,6 +5,7 @@ import { Enemy, Tank, FlyGuy } from '../enemy.js';
 import { PlatformLayer } from '../platformLayer.js';
 import { BasePlat } from '../basePlat.js';
 import { Round } from '../round.js';
+import { createEnemyAnimations } from '../enemyAnims.js';
 
 
 class GameScene extends Phaser.Scene {
@@ -18,6 +19,7 @@ class GameScene extends Phaser.Scene {
         ResBlocks.preload(this);
         PlatformLayer.preload(this);
         Enemy.preload(this);
+        FlyGuy.preload(this);
         Tank.preload(this);
         this.load.image('background', 'assets/background/sky.png');
         this.load.image('base', 'assets/base/base.png');
@@ -29,6 +31,16 @@ class GameScene extends Phaser.Scene {
 
     }
     
+    // Add this method to set up colliders
+    setupColliders() {
+        this.physics.add.collider(this.player.sprite, this.resBlocks);
+        this.physics.add.collider(this.player.sprite, this.platformLayer);
+        this.physics.add.collider(this.player.sprite, this.basePlat, this.cam_followBase, null, this);
+        this.physics.add.collider(this.round.enemyGroup, this.basePlat);
+        this.physics.add.collider(this.round.enemyGroup, this.resBlocks);
+        this.physics.add.collider(this.player.sprite, this.round.enemyGroup, this.playerHitEnemy, null, this);
+    }
+
     create() {
         //const
         this.GATHER_TIME = 60;
@@ -79,16 +91,12 @@ class GameScene extends Phaser.Scene {
         this.cameras.main.startFollow(this.base, false, 0, 1);
 
         //create player
-        this.player.create();     
+        this.player.create();  
+        //enemy animations    
+        createEnemyAnimations(this);
 
         // Colliders
-        this.physics.add.collider(this.player.sprite, this.resBlocks);
-        this.physics.add.collider(this.player.sprite, this.platformLayer);
-        this.physics.add.collider(this.player.sprite, this.basePlat, this.cam_followBase, null, this);
-        this.physics.add.collider(this.player.sprite, this.resBlocks);
-        this.physics.add.collider(this.round.enemyGroup, this.basePlat);
-        this.physics.add.collider(this.round.enemyGroup, this.resBlocks);
-
+        this.setupColliders();
 
         //timer event, tics down (tics timer OR health)
         this.time.addEvent({
@@ -227,6 +235,14 @@ class GameScene extends Phaser.Scene {
         
         this.player.update();
         //this.enemy.update();
+        if (this.round && this.round.enemyGroup) {
+            this.round.enemyGroup.children.iterate((enemy) => {
+                if (enemy && enemy.update) {
+                    enemy.update(this.player); // Pass the player object
+                }
+            });
+        }
+
         this.updateRegistry();
     }
 
@@ -273,7 +289,10 @@ class GameScene extends Phaser.Scene {
         this.registry.set('display_timer', this.display_timer); 
     }
 
-    
+    // Add this method to handle player collision with enemy
+    playerHitEnemy(player, enemy) {
+        this.player.takeDamage(1);
+    }
 
 }
 

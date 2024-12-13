@@ -86,7 +86,7 @@ export class Player {
         // Movement controls
         if (this.cursors.left.isDown) {
             if (!this.sprite.body.touching.left){ //fixes wall sticking
-                this.sprite.setVelocityX(-160);
+                this.sprite.setVelocityX(-180);
             }
             this.sprite.setFlipX(true);  // Flip sprite for left movement
             if (this.sprite.anims.currentAnim.key !== 'walk') {
@@ -95,7 +95,7 @@ export class Player {
         } else if (this.cursors.right.isDown) {
             
             if (!this.sprite.body.touching.right){ //fixes wall sticking
-                this.sprite.setVelocityX(160);
+                this.sprite.setVelocityX(180);
             }
             this.sprite.setFlipX(false);  // Flip sprite for left movement
             if (this.sprite.anims.currentAnim.key !== 'walk') {
@@ -163,13 +163,39 @@ export class Player {
         projectile.body.onWorldBounds = true; // Trigger when projectile hits the world bounds
     
         // Optional: Destroy the projectile after a few seconds if it doesn't hit anything
-        this.scene.time.delayedCall(2000, () => projectile.destroy());  // Destroy after 2 seconds if no collision
+        this.scene.time.delayedCall(2000, () => {
+            console.log('Projectile destroyed after timeout');
+            projectile.destroy();
+        });  // Destroy after 2 seconds if no collision
     
-        // Optional: Add collision with enemies (if defined)
-        this.scene.physics.add.collider(projectile, this.scene.round.enemyGroup, (projectile, enemy) => {
-            enemy.setVelocity(0);
-            enemy.takeDamage(100);  // Deal 10 damage to the enemy
-            projectile.destroy();  // Destroy the projectile after hitting the enemy
+        // Add collision with enemies
+        this.scene.physics.add.collider(projectile, this.scene.round.enemyGroup, (proj, enemy) => {
+            console.log(`Projectile hit ${enemy.texture.key}`);
+            enemy.takeDamage(10);  // Deal 10 damage to the enemy
+            proj.destroy();      // Destroy the projectile
         });
+
+        // Optional: handle projectile-world bounds collision
+        this.scene.physics.world.on('worldbounds', (body) => {
+            if (body.gameObject === projectile) {
+                console.log('Projectile hit world bounds');
+                projectile.destroy();
+            }
+        });
+    }
+
+    takeDamage(amount) {
+        this.resources_Map['health'] -= amount;
+        if (this.resources_Map['health'] < 0) {
+            this.resources_Map['health'] = 0;
+        }
+        this.sprite.setTint(0xff0000); // Flash red to indicate damage
+        this.scene.time.delayedCall(200, () => this.sprite.clearTint());
+        this.scene.updateRegistry();
+        console.log(`Player health: ${this.resources_Map['health']}`);
+
+        // if (this.resources_Map['health'] === 0) {
+        //     this.scene.scene.start('titleScene'); // Switch to the start menu
+        // }
     }
 }

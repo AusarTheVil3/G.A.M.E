@@ -7,6 +7,7 @@ export class Round {
         this.enemyGroup = this.scene.physics.add.group(); // Group to store all spawned enemies
         this.spawnInterval = 1000; // Time in milliseconds between each enemy spawn
         this.timerEvent = null; // Reference to the Phaser timer event
+        this.enemyCount = 0; // Number of enemies spawned
     }
 
     // Start spawning enemies with a delay
@@ -38,7 +39,7 @@ export class Round {
         if (this.enemyQueue.length > 0) {
             const type = this.enemyQueue.shift(); // Dequeue the next enemy type
             const x = Phaser.Math.Between(100, 700); // Random x-coordinate
-            const y = Phaser.Math.Between(this.scene.base_plat_pos -100, this.scene.base_plat_pos - 200); // Random y-coordinate
+            const y = Phaser.Math.Between(this.scene.base_plat_pos - 100, this.scene.base_plat_pos - 200); // Random y-coordinate
             let enemy;
 
             // Create the appropriate enemy type
@@ -55,6 +56,9 @@ export class Round {
             }
 
             this.enemyGroup.add(enemy); // Add the enemy to the group
+            this.enemyCount += 1;
+            console.log(`Enemy created. Total enemies: ${this.enemyCount}`);
+
         } else {
             this.stop(); // Stop spawning when the queue is empty
             console.log(`Round ${this.roundNumber} complete.`);
@@ -67,6 +71,7 @@ export class Round {
             enemy.destroy(); // Destroy each enemy
         });
         this.enemyGroup.clear(true); // Clear the group
+        this.enemyCount = 0; // Reset enemy count
     }
 
     // Check if the round is complete
