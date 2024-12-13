@@ -213,13 +213,13 @@ class GameScene extends Phaser.Scene {
     update() {
         
         if (Phaser.Input.Keyboard.JustDown(this.keyboardesc)) {
-            //this.scene.stop('HUDScene');
-            this.scene.switch('titleScene');
+            this.scene.stop('HUDScene');
+            this.scene.start('titleScene');
             
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.keyboardp)) {
-            //this.scene.stop('HUDScene');
+            this.scene.stop('HUDScene');
             this.scene.switch('pauseScene');
         }
 
@@ -244,6 +244,12 @@ class GameScene extends Phaser.Scene {
         }
 
         this.updateRegistry();
+
+        if(this.registry.get('health') <= 0)
+        {
+            this.scene.stop('HUDScene');
+            this.scene.start('gameOverScene');
+        }
     }
 
 

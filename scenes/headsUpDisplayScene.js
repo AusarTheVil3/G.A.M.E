@@ -22,20 +22,20 @@ class HUDScene extends Phaser.Scene {
         this.heart = this.add.image(30, 30, 'heart');
         this.healthText = this.add.text(50, 18, this.registry.get('health'), { fontSize: '25px', fill: '#FFF' });
 
-        this.graphics.fillRect(135, 10, 60, 40);
+        this.graphics.fillRect(135 , 10, 70, 40);
         // Resource display
         this.resource1 = this.add.image(155, 30, 'resource_one');
         this.resource1text = this.add.text(175, 18, this.registry.get('resource_one'), { fontSize: '25px', fill: '#FFF' });
 
-        this.graphics.fillRect(210, 10, 65, 40);
+        this.graphics.fillRect(210, 10, 75, 40);
         this.resource2 = this.add.image(230, 30, 'resource_two');
         this.resource2text = this.add.text(255, 18, this.registry.get('resource_two'), { fontSize: '25px', fill: '#FFF' });
 
-        this.graphics.fillRect(290, 10, 60, 40);
+        this.graphics.fillRect(290, 10, 75, 40);
         this.resource3 = this.add.image(310, 30, 'resource_three');
         this.resource3text = this.add.text(335, 18, this.registry.get('resource_three'), { fontSize: '25px', fill: '#FFF' });
 
-        this.graphics.fillRect(370, 10, 70, 40);
+        this.graphics.fillRect(370, 10, 80, 40);
         this.resource4 = this.add.image(390, 30, 'resource_four');
         this.resource4text = this.add.text(420, 18, this.registry.get('resource_four'), { fontSize: '25px', fill: '#FFF' });
 
