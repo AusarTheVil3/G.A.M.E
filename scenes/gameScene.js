@@ -116,8 +116,7 @@ class GameScene extends Phaser.Scene {
             loop: true
         });
 
-        //adds the physics overlay - testing
-        this.physics.world.createDebugGraphic();
+ 
 
         // Use k to kill all enemies - testing
         this.killKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
@@ -213,13 +212,13 @@ class GameScene extends Phaser.Scene {
     update() {
         
         if (Phaser.Input.Keyboard.JustDown(this.keyboardesc)) {
-            //this.scene.stop('HUDScene');
-            this.scene.switch('titleScene');
+            this.scene.stop('HUDScene');
+            this.scene.start('titleScene');
             
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.keyboardp)) {
-            //this.scene.stop('HUDScene');
+            this.scene.stop('HUDScene');
             this.scene.switch('pauseScene');
         }
 
@@ -232,6 +231,19 @@ class GameScene extends Phaser.Scene {
             this.cam_followPlayer();
         }
         
+        if(this.player.resources_Map["puzzle"] == 1)
+        {
+            this.player.resources_Map["puzzle"] = 0;
+            this.updateRegistry();
+            this.scene.stop('puzzleScene');
+            this.scene.switch('puzzleScene');
+            this.updateRegistry();
+            if(this.registry.get('puzzle') == 1)
+            {
+                this.registry.set('puzzle',0);
+                this.player.allowGravity = false;
+            }
+        }
         
         this.player.update();
         //this.enemy.update();
@@ -244,6 +256,12 @@ class GameScene extends Phaser.Scene {
         }
 
         this.updateRegistry();
+
+        if(this.registry.get('health') <= 0)
+        {
+            this.scene.stop('HUDScene');
+            this.scene.start('gameOverScene');
+        }
     }
 
 

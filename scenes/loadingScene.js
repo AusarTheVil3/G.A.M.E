@@ -4,31 +4,20 @@ class LoadingScene extends Phaser.Scene {
     }
 
     preload(){
-        this.cameras.main.setBackgroundColor(0x000000);
-        
+        this.load.image('loadingScreen','./assets/loading.jpg');
+        this.keyboardspace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
     create(){
-        this.statusText = this.add.text(400, 400, "Loading");
-
-        this.time.addEvent({
-            delay: 1000,                  // 5 seconds (in milliseconds)
-            callback: this.resumeScene,  // Function to call after the delay
-            callbackScope: this          // Scope for the callback function
-        });
-
-        this.scenePaused = true;  
-    }
+        let loadingScreen = this.add.image(400,400,'loadingScreen');
+    } 
 
     update(){
-        if (this.scenePaused) return;
-        
-        this.scene.switch('gameScene');
+        if (Phaser.Input.Keyboard.JustDown(this.keyboardspace)) {
+            this.scene.switch('gameScene');
+        }
     }
 
-    resumeScene() {
-        this.scenePaused = false;  
-    }
 
 
 }
