@@ -17,7 +17,7 @@ class PuzzleScene extends Phaser.Scene {
     }
 
     create(){
-        this.random =2.5// = Phaser.Math.FloatBetween(0, 3);
+        this.random = Phaser.Math.FloatBetween(0, 3);
           
         if(this.random <= 1){
             
@@ -27,8 +27,8 @@ class PuzzleScene extends Phaser.Scene {
             this.correctButton1.setInteractive();
             this.incorrectButton1.setInteractive();
             this.correctButton1.on('pointerup', ()=>{
-                console.log("correct");
                 this.registry.set('puzzle', 1);
+                this.registry.set('puzzle1', true);
                 this.scene.switch('gameScene');
             })
             this.incorrectButton1.on('pointerup', ()=>{
@@ -44,8 +44,9 @@ class PuzzleScene extends Phaser.Scene {
             this.correctButton2.setInteractive();
             this.incorrectButton2.setInteractive();
             this.correctButton2.on('pointerup', ()=>{
-                console.log("correct");
+                
                 this.registry.set('puzzle', 1);
+                this.registry.set('puzzle2', true);
                 this.correctButton2.setScale(1);
                 this.scene.switch('gameScene');
             })
@@ -62,7 +63,8 @@ class PuzzleScene extends Phaser.Scene {
             this.correctButton3.setInteractive();
             this.incorrectButton3.setInteractive();          
             this.correctButton3.on('pointerup', ()=>{
-                console.log("correct");
+                
+                this.registry.set('puzzle3', true);
                 this.registry.set('puzzle', 1);
                 this.scene.switch('gameScene');
             })
