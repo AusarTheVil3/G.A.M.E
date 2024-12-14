@@ -116,8 +116,7 @@ class GameScene extends Phaser.Scene {
             loop: true
         });
 
-        //adds the physics overlay - testing
-        this.physics.world.createDebugGraphic();
+ 
 
         // Use k to kill all enemies - testing
         this.killKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
