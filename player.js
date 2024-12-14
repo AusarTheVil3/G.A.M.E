@@ -55,6 +55,7 @@ export class Player {
 
         this.resources_Map = {
             "health":100,
+            "puzzle":0,
             "resource_one":0,
             "resource_two":0,
             "resource_three":0,

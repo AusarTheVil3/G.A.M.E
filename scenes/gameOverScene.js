@@ -13,7 +13,10 @@ class GameOverScene extends Phaser.Scene {
         this.load.image('resource_three', 'assets/resources/1 icons/Icon14_05.png');
         this.load.image('resource_four', 'assets/resources/1 icons/Icon14_24.png');
         this.load.image('resourcesCollected','./assets/resourcesCollected.PNG');
-        
+        this.load.image('puzzle0comp','../assets/puzzles/puzzle0complete.PNG');
+        this.load.image('puzzle1comp','../assets/puzzles/puzzle1complete.PNG');
+        this.load.image('puzzle2comp','../assets/puzzles/puzzle2complete.PNG');
+        this.load.image('puzzle3comp','../assets/puzzles/puzzle3complete.PNG');
         //add in game over background
     }
 
@@ -40,7 +43,29 @@ class GameOverScene extends Phaser.Scene {
         this.resource4 = this.add.image(620, 400, 'resource_four');
         this.resource4text = this.add.text(650, 388, this.registry.get('resource_four'), { fontSize: '25px', fill: '#FFF' });
 
-        
+        this.puzzlesCompleted = 0;
+        if(this.registry.get('puzzle1') == true)
+            this.puzzlesCompleted += 1;
+        if(this.registry.get('puzzle2') == true)
+            this.puzzlesCompleted += 1;
+        if(this.registry.get('puzzle3') == true)
+            this.puzzlesCompleted += 1;
+
+        console.log
+        if(this.puzzlesCompleted == 0)
+        {
+            this.add.image(400,530,'puzzle0comp').setScale(0.5);
+        } 
+        else if(this.puzzlesCompleted == 1) {
+            this.add.image(400,530,'puzzle1comp').setScale(0.5);
+        }   
+        else if(this.puzzlesCompleted == 2) {
+            this.add.image(400,530,'puzzle2comp').setScale(0.5);
+        }  
+        else if(this.puzzlesCompleted == 3) {
+            this.add.image(400,530,'puzzle3comp').setScale(0.5);
+        }  
+
    
         returnToMain.setInteractive();
         returnToMain.on('pointerdown', ()=>{
