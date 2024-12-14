@@ -42,7 +42,7 @@ export class ResBlocks extends Phaser.Physics.Arcade.StaticGroup {
             { key: 'resource_two', weight: 10 }, 
             { key: 'resource_three', weight: 10 }, 
             { key: 'resource_four', weight: 10 },  
-            { key: 'puzzle', weight: 1 },  
+            { key: 'puzzle', weight: 50 },  
             { key: null, weight: 55 },           
         ];
 
